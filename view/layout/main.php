@@ -10,6 +10,6 @@
     </head>
     <body>
         <h1>Hello World</h1>
+        <script type="text/javascript" src="public/assets/materialize.min.js"></script>
     </body>
-    <script src="public/assets/materialize.min.js"></script>
 </html>

@@ -34,8 +34,8 @@ function redirect($url = null)
  */
 function baseurl($suffix = null)
 {
-    global $config;
-    $baseurl = $config['baseurl'];
+    global $_CONFIG;
+    $baseurl = $_CONFIG['baseurl'];
 
     // remove last '/' on baseurl
     if ( substr($baseurl, -1) == '/' ) {
@@ -76,6 +76,14 @@ function getUrl($segment = null)
     }
 
     return $url;
+}
+
+/**
+ * Get current accessed URI
+ */
+function Uri($segment = 0)
+{
+    return getUrl($segment);
 }
 
 /**

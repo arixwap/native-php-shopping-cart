@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="public/assets/materialize.min.css">
 	</head>
 	<body>
-		<p>Directory access is forbidden.</p>
+		<h1>Directory access is forbidden.</h1>
+		<script type="text/javascript" src="public/assets/materialize.min.js"></script>
 	</body>
-	<script src="public/assets/materialize.min.js"></script>
 </html>

@@ -3,9 +3,12 @@
 class Home
 {
 
+    /**
+     * List of home page
+     */
     public function index()
     {
-        echo 'Hello World';
+        echo 'Homepage';
     }
 
 }

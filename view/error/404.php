@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="public/assets/materialize.min.css">
 	</head>
 	<body>
-		<p>Page not found.</p>
+		<h1>Page not found.</h1>
+		<script type="text/javascript" src="public/assets/materialize.min.js"></script>
 	</body>
-	<script src="public/assets/materialize.min.js"></script>
 </html>
