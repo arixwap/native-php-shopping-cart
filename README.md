@@ -1,2 +1,10 @@
-# native-php-shoping-cart
-Simple Shoping Cart with Native PHP
+# Native PHP Shoping Cart
+
+Membuat shopping cart menggunakan native php dengan css framework pilihan (bebas), jQuery (optional) dan database (mysql). 
+
+Element yang harus ada : 
+- Product
+- Category Product 
+- Cart 
+- Checkout
+- Silahkan ditambahkan sendiri element sesuai kreasi. 
