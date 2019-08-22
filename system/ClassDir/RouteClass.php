@@ -18,7 +18,7 @@ class RouteClass
      */
     public function __construct($className, $methodName, $paramName)
     {
-        global $_CONFIG;
+        global $_CONFIG, $db;
 
         if ( ! $className ) $className = $_CONFIG['index'];
         if ( ! $methodName ) $methodName = 'index';

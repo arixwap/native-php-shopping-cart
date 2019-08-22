@@ -1,6 +1,6 @@
 <?php
 
-class Product
+class Product extends ControllerClass
 {
     /**
      * Index of Product
