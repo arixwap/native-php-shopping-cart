@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * Get Config Data
+ */
+function config($name)
+{
+    global $_CONFIG;
+
+    return $_CONFIG[$name];
+}
+
+/**
  * Data Dump and Exit
  */
 function dd($data)
@@ -87,9 +97,9 @@ function Uri($segment = 0)
 }
 
 /**
- * Redirect to Base URL if current url is miss match
+ * Check & Redirect to Base URL if current url is miss match
  */
-function redirectBaseUrl()
+function checkBaseurl()
 {
     $baseurl = baseurl();
     $currentBaseUrl = substr(getUrl(), 0, strlen(baseurl()));
@@ -97,6 +107,34 @@ function redirectBaseUrl()
     if ($baseurl != $currentBaseUrl) {
         redirect(baseurl($_SERVER['REQUEST_URI']));
     }
+}
+
+/**
+ * Redirect to Base URL with URI segment
+ */
+function redirectBaseurl($uri = null)
+{
+    redirect( baseurl($uri) );
+}
+
+/**
+ * Output View Function
+ */
+function view($_PAGE_FILE, $_PAGE_TITLE = null, $_PAGE_LAYOUT = null)
+{
+    // Set page layout file
+    if ($_PAGE_LAYOUT) {
+        $_PAGE_LAYOUT = 'view/layout/'.$_PAGE_LAYOUT;
+    } else {
+        $_PAGE_LAYOUT = 'view/layout/main.php';
+    }
+
+    // Set page title
+    if ( ! $_PAGE_TITLE ) {
+        $_PAGE_TITLE = config('name');
+    }
+
+    include($_PAGE_LAYOUT);
 }
 
 ?>

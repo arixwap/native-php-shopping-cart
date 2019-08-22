@@ -15,7 +15,17 @@ class Product extends ControllerClass
      */
     public function create()
     {
-        echo 'Create Product';
+        $products = 'Create Producs';
+
+        echo view('product-form.php');
+    }
+
+    /**
+     * Insert product into database
+     */
+    public function store()
+    {
+        //
     }
 
     /**

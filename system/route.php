@@ -3,7 +3,7 @@
 /**
  * Check or redirect to Base URL if request URL is doesn't match
  */
-redirectBaseUrl();
+checkBaseurl();
 
 
 /**

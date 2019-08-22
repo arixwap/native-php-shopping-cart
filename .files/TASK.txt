@@ -1,1 +1,2 @@
-Coba buat form input product
+- View Function
+- Coba buat form input product

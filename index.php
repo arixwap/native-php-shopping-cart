@@ -5,6 +5,9 @@
  */
 $_CONFIG = [
 
+    // Application Name
+    'name' => 'Shop Cart',
+
     // Application Base URL
     'baseurl' => 'localhost/shopping-cart/',
 
