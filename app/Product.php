@@ -7,7 +7,7 @@ class Product extends ControllerClass
      */
     public function index()
     {
-        echo 'Product List';
+        echo 'Product Index';
     }
 
     /**
@@ -17,7 +17,7 @@ class Product extends ControllerClass
     {
         $products = 'Create Producs';
 
-        echo view('product-form.php');
+        // echo view('product-form.php');
     }
 
     /**

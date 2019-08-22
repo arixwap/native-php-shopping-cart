@@ -2,21 +2,44 @@
 
 /**
  * Get Config Data
+ *
+ * Multidimensional array search using '.' notation
+ * Example : 'array.array.array'
  */
-function config($name)
+function config($search)
 {
     global $_CONFIG;
 
-    return $_CONFIG[$name];
+    if ( strpos($search, '.') ) {
+
+        foreach (explode('.', $search) as $key) {
+
+            $result = null;
+
+            if ( isset($_CONFIG[$key]) ) {
+                $result = $_CONFIG = $_CONFIG[$key];
+            }
+
+        }
+
+        return $result;
+    }
+
+    return $_CONFIG[$search];
 }
 
 /**
  * Data Dump and Exit
  */
-function dd($data)
+function dd($data, $vardump = false)
 {
     echo "<pre>";
-    print_r($data);
+
+    if ($vardump)
+        var_dump($data);
+    else
+        print_r($data);
+
     echo "</pre>";
     exit();
 }
