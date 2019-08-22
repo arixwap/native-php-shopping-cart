@@ -17,7 +17,9 @@ class Product extends ControllerClass
     {
         $products = 'Create Producs';
 
-        // echo view('product-form.php');
+        // MASIH DEVELOPMENT
+        view('nama-file', $data, config('name'), 'main');
+        view('product-form.php');
     }
 
     /**

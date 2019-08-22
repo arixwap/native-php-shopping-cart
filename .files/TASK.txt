@@ -1,2 +1,2 @@
-- View Function
+- View Function : agar render berhasil
 - Coba buat form input product
