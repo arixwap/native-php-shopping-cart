@@ -7,14 +7,6 @@ class Product extends ControllerClass
      */
     public function index()
     {
-        echo 'Product Index';
-    }
-
-    /**
-     * Create new product
-     */
-    public function create()
-    {
         $data['products'] = 'Create Producs';
 
         $products = $this->db->query('SELECT * FROM products');
@@ -26,11 +18,19 @@ class Product extends ControllerClass
     }
 
     /**
+     * Create new product
+     */
+    public function create()
+    {
+        echo 'Create product';
+    }
+
+    /**
      * Insert product into database
      */
     public function store()
     {
-        //
+        redirect('product');
     }
 
     /**
@@ -39,6 +39,14 @@ class Product extends ControllerClass
     public function edit($id)
     {
         echo 'Edit Product : '.$id;
+    }
+
+    /**
+     * Update product into database
+     */
+    public function update()
+    {
+        //
     }
 
     /**

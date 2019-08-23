@@ -45,24 +45,6 @@ function dd($data, $vardump = false)
 }
 
 /**
- * Redirect function
- */
-function redirect($url = null)
-{
-    if ($url) {
-
-        // Add http
-        if (strpos($url, 'http') === false) {
-            $url = 'http://'.$url;
-        }
-
-        header("Location: ".$url);
-        exit();
-
-    }
-}
-
-/**
  * Helper for create Application URL
  */
 function baseurl($suffix = null)
@@ -120,7 +102,33 @@ function Uri($segment = 0)
 }
 
 /**
- * Check & Redirect to Base URL if current url is miss match
+ * Redirect to External Link
+ */
+function redirectExternal($url = null)
+{
+    if ($url) {
+
+        // Add http
+        if (strpos($url, 'http') === false) {
+            $url = 'http://'.$url;
+        }
+
+        header("Location: ".$url);
+        exit();
+
+    }
+}
+
+/**
+ * Redirect to Base URL with URI segment
+ */
+function redirect($uri = null)
+{
+    redirectExternal(baseurl($uri));
+}
+
+/**
+ * Check & Redirect to if current base url is miss match
  */
 function checkBaseurl()
 {
@@ -128,16 +136,8 @@ function checkBaseurl()
     $currentBaseUrl = substr(getUrl(), 0, strlen(baseurl()));
 
     if ($baseurl != $currentBaseUrl) {
-        redirect(baseurl($_SERVER['REQUEST_URI']));
+        redirect($_SERVER['REQUEST_URI']);
     }
-}
-
-/**
- * Redirect to Base URL with URI segment
- */
-function redirectBaseurl($uri = null)
-{
-    redirect( baseurl($uri) );
 }
 
 /**

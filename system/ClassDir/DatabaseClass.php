@@ -49,7 +49,13 @@ class DatabaseClass
         $result = $this->connection->query($string);
 
         if ($result->num_rows > 0) {
-            $result = $result->fetch_assoc();
+
+            $rows = [];
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+
+            return $rows;
         }
 
         return $result;
