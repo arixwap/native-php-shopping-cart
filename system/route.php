@@ -3,7 +3,9 @@
 /**
  * Check or redirect to Base URL if request URL is doesn't match
  */
-checkBaseurl();
+if ( substr(getUrl(), 0, strlen(baseurl())) != baseurl() ) {
+    redirect($_SERVER['REQUEST_URI']);
+}
 
 
 /**

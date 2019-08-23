@@ -128,36 +128,35 @@ function redirect($uri = null)
 }
 
 /**
- * Check & Redirect to if current base url is miss match
- */
-function checkBaseurl()
-{
-    $baseurl = baseurl();
-    $currentBaseUrl = substr(getUrl(), 0, strlen(baseurl()));
-
-    if ($baseurl != $currentBaseUrl) {
-        redirect($_SERVER['REQUEST_URI']);
-    }
-}
-
-/**
  * Output View Function
+ *
+ * page : rendered page file in view/page/
+ * data : mixed variables to be viewed
+ * title : html page title
+ * layout : main view layout to be used in view/layout
  */
-function view($_PAGE_FILE, $_PAGE_TITLE = null, $_PAGE_LAYOUT = null)
+function view($page, $data = [], $title = null, $layout = null)
 {
-    // Set page layout file
-    if ($_PAGE_LAYOUT) {
-        $_PAGE_LAYOUT = 'view/layout/'.$_PAGE_LAYOUT;
-    } else {
-        $_PAGE_LAYOUT = 'view/layout/main.php';
-    }
-
     // Set page title
-    if ( ! $_PAGE_TITLE ) {
-        $_PAGE_TITLE = config('name');
+    $_VIEW['title'] = $title ?? config('name');
+
+    // Set page layout file
+    if ($layout) {
+        if (strpos($layout, '.php') === false) $layout = $layout.'.php';
+        $_VIEW['layout'] = 'view/layout/'.$layout;
+    } else {
+        $_VIEW['layout'] = 'view/layout/main.php';
     }
 
-    include($_PAGE_LAYOUT);
+    // Set Page File
+    if (strpos($page, '.php') === false) $page = $page.'.php';
+    $_VIEW['page'] = 'view/page/'.$page;
+
+    // Extract Data Into Output, Unset unused data
+    extract($data);
+    unset($page, $data, $title, $layout);
+
+    include($_VIEW['layout']);
 }
 
 ?>

@@ -1,1 +1,1 @@
-<?= $products ?>
+<?= dd($products) ?>
