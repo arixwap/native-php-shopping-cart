@@ -1,7 +1,5 @@
 PROGRESS
-
-- View Function : agar render berhasil
-- Coba buat form input product
+- Form Input Product
 
 
 

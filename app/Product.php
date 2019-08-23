@@ -16,7 +16,7 @@ class Product extends ControllerClass
 
         $data['products'] = $this->db->query('SELECT * FROM products');
 
-        view('product-form.php', $data, $title);
+        view('product-form', $data, $title);
     }
 
     /**
