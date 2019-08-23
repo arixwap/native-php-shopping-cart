@@ -12,11 +12,11 @@ class Product extends ControllerClass
      */
     public function index()
     {
+        $title = config('name').' - Product List';
+
         $data['products'] = $this->db->query('SELECT * FROM products');
 
-        // MASIH DEVELOPMENT
-        // view('nama-file', $data, config('name'), 'main');
-        view('product-form.php', $data);
+        view('product-form.php', $data, $title);
     }
 
     /**

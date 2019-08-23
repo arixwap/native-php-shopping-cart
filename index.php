@@ -9,7 +9,7 @@ $_CONFIG = [
     'name' => 'Shop Cart',
 
     // Application Base URL
-    'baseurl' => 'localhost/shopping-cart',
+    'baseurl' => 'http://localhost/shopping-cart',
 
     // Index Controller
     'index' => 'home',

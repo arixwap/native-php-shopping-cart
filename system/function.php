@@ -10,22 +10,22 @@ function config($search)
 {
     global $_CONFIG;
 
+    $result = $_CONFIG[$search];
+
     if ( strpos($search, '.') ) {
 
         foreach (explode('.', $search) as $key) {
 
             $result = null;
-
             if ( isset($_CONFIG[$key]) ) {
                 $result = $_CONFIG = $_CONFIG[$key];
             }
 
         }
 
-        return $result;
     }
 
-    return $_CONFIG[$search];
+    return $result;
 }
 
 /**
@@ -42,6 +42,18 @@ function dd($data, $vardump = false)
 
     echo "</pre>";
     exit();
+}
+
+/**
+ *
+ */
+function url($url)
+{
+    if (strpos($url, 'http') === false) {
+        $url = 'http://'.$url;
+    }
+
+    return $url;
 }
 
 /**
@@ -78,7 +90,7 @@ function baseurl($suffix = null)
 function getUrl($segment = null)
 {
     $baseurl = baseurl();
-    $url = $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+    $url = url($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
     $requestUri = str_replace($baseurl, '', $url);
 
     // remove first slashes '/'

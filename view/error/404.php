@@ -6,10 +6,10 @@
 		<title>404 Not Found</title>
 		<meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="public/assets/materialize.min.css">
+        <link rel="stylesheet" href="<?= baseurl('public/assets/materialize.min.css') ?>">
 	</head>
 	<body>
 		<h1>Page not found.</h1>
-		<script type="text/javascript" src="public/assets/materialize.min.js"></script>
+		<script type="text/javascript" src="<?= baseurl('public/assets/materialize.min.js') ?>"></script>
 	</body>
 </html>
