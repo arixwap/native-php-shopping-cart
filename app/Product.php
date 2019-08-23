@@ -15,10 +15,13 @@ class Product extends ControllerClass
      */
     public function create()
     {
-        $products = 'Create Producs';
+        $data['products'] = 'Create Producs';
+
+        $products = $this->db->query('SELECT * FROM products');
+        dd($products);
 
         // MASIH DEVELOPMENT
-        view('nama-file', $data, config('name'), 'main');
+        // view('nama-file', $data, config('name'), 'main');
         view('product-form.php');
     }
 

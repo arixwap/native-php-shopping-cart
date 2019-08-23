@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Native PHP Database Class
+ * Created By : Arix Wap (arix.wap@gmail.com) - 21 Aug 2019
+ */
+
 class DatabaseClass
 {
     /**
@@ -9,6 +14,8 @@ class DatabaseClass
     protected $username;
     protected $password;
     protected $database;
+    // -- //
+    public $connection;
 
     /**
      * Constructor Class
@@ -26,11 +33,60 @@ class DatabaseClass
         // Start Connection
         $connection = mysqli_connect($host, $username, $password, $database);
         if ( ! $connection ) {
-            die ("connection failed.". mysqli_connect_error());
+            die ("Connection Failed. ". mysqli_connect_error());
         }
 
-        return $connection;
+        $this->connection = $connection;
     }
+
+    /**
+     * Get table data by raw query and return it as array
+     */
+    public function query($string)
+    {
+        $result = false;
+
+        $result = $this->connection->query($string);
+
+        if ($result->num_rows > 0) {
+            $result = $result->fetch_assoc();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get table data and return it as array
+     */
+    public function get($table, $select = '*', $condition = null)
+    {
+        //
+    }
+
+    /**
+     * Insert new data into table
+     */
+    public function insert($table, $data)
+    {
+        //
+    }
+
+    /**
+     * Update table in raw query string condition
+     */
+    public function update($table, $condition, $data)
+    {
+        //
+    }
+
+    /**
+     * Delete table in raw query string condition
+     */
+    public function delete($table, $condition)
+    {
+        //
+    }
+
 }
 
 ?>
