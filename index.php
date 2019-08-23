@@ -1,8 +1,11 @@
 <?php
-
 /**
- * Configuration Section
+ * Native PHP Shopping Cart
+ * Created By Arix Wap (arix.wap@gmail.com)
+ * For Kesato Interview Test - 21 Aug 2019
  */
+
+// Configuration Section
 $_CONFIG = [
 
     // Application Name
@@ -25,9 +28,7 @@ $_CONFIG = [
 ];
 
 
-/**
- * Boot Core System
- */
+// Boot Core System
 include 'system/boot.php';
 
 ?>
