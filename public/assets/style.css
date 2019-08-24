@@ -11,6 +11,11 @@
     min-height: 290px;
 }
 
+ul.menu-footer > li {
+    font-weight: 300;
+    margin-bottom: 0.3em;
+}
+
 .text-space {
     letter-spacing: 0.1em;
 }

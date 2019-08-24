@@ -1,5 +1,5 @@
 <div class="container">
-    <a class="waves-effect waves-light btn blue lighten-2" href="<?=baseurl('product/create')?>">
+    <a class="waves-effect waves-light btn blue lighten-2" href="<?=baseurl('admin/product-create')?>">
         <i class="material-icons left">add</i>Product
     </a>
     <ul class="collection">

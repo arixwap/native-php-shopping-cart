@@ -37,6 +37,24 @@ class RouteClass
         include('app/'.$className.'.php');
         $class = new $className();
 
+        // Convert URI Segment into method name
+        $separator = false;
+        if (strpos($methodName, '-')) {
+            $separator = '-';
+        } else if (strpos($methodName, '_')) {
+            $separator = '_';
+        }
+        // -- //
+        if ($separator) {
+            foreach (explode($separator, $methodName) as $key => $methodWord) {
+                if ($key == 0) {
+                    $methodName = $methodWord;
+                } else {
+                    $methodName .= ucfirst($methodWord);
+                }
+            }
+        }
+
         // Check if method class exist
         if ( ! method_exists($class, $methodName) ) {
             return $this->pageNotFound();

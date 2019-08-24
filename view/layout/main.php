@@ -15,11 +15,11 @@
         <div class="nav-wrapper container"><a id="logo-container" href="<?=baseurl()?>" class="brand-logo">Native Cart</a>
             <!-- Main Menu -->
             <ul class="right hide-on-med-and-down">
-                <li><a href="<?=baseurl('product')?>">Product</a></li>
+                <li><a href="<?=baseurl('shop/cart')?>"><i class="material-icons">shopping_cart</i></a></li>
             </ul>
             <!-- Mobile Menu -->
             <ul id="nav-mobile" class="sidenav">
-                <li><a href="<?=baseurl('product')?>">Product</a></li>
+                <li><a href="<?=baseurl('shop/cart')?>"><i class="material-icons">shopping_cart</i></a></li>
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>
@@ -34,15 +34,15 @@
         <div class="container">
             <div class="row">
                 <div class="col l8 s12">
-                    <h5 class="white-text">Native Shopping Cart</h5>
+                    <h5 class="white-text text-space">Native Shopping Cart</h5>
                     <p class="grey-text text-lighten-4">This is a simple shopping cart, made using native PHP. CSS Framework using Materialize and some little JQuery</p>
                 </div>
-                <div class="col l4 s12">
+                <div class="col l4 s12 text-space">
                     <h5 class="white-text">Admin</h5>
-                    <ul>
-                        <li><a class="white-text" href="<?=baseurl('product')?>">Product</a></li>
-                        <li><a class="white-text" href="<?=baseurl('category')?>">Category</a></li>
-                        <li><a class="white-text" href="<?=baseurl('order')?>">Order</a></li>
+                    <ul class="menu-footer">
+                        <li><a class="white-text" href="<?=baseurl('admin/product')?>">Product</a></li>
+                        <li><a class="white-text" href="<?=baseurl('admin/category')?>">Category</a></li>
+                        <li><a class="white-text" href="<?=baseurl('admin/order')?>">Order</a></li>
                     </ul>
                 </div>
             </div>

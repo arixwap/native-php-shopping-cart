@@ -15,7 +15,7 @@ $_CONFIG = [
     'baseurl' => 'http://localhost/shopping-cart',
 
     // Index Controller
-    'index' => 'home',
+    'index' => 'shop',
 
     // Database Configuration
     'database' => [
