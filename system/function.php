@@ -29,9 +29,9 @@ function config($search)
 }
 
 /**
- * Data Dump and Exit
+ * Data Dump
  */
-function dd($data, $vardump = false)
+function dump($data, $vardump = false)
 {
     echo "<pre>";
 
@@ -41,6 +41,14 @@ function dd($data, $vardump = false)
         print_r($data);
 
     echo "</pre>";
+}
+
+/**
+ * Data Dump and Exit
+ */
+function dd($data, $vardump = false)
+{
+    dump($data, $vardump);
     exit();
 }
 
