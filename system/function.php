@@ -12,7 +12,7 @@ function config($search)
 
     $result = $_CONFIG[$search];
 
-    if ( strpos($search, '.') ) {
+    if ( strpos($search, '.') !== false ) {
 
         foreach (explode('.', $search) as $key) {
 
@@ -165,10 +165,29 @@ function view($page, $data = [], $title = null, $layout = null)
     $_VIEW['page'] = 'view/page/'.$page;
 
     // Extract Data Into Output, Unset unused data
+    unset($page, $title, $layout);
     if ($data != null) extract($data);
-    unset($page, $data, $title, $layout);
+    unset($data);
 
     include($_VIEW['layout']);
+}
+
+/**
+ * Show error 404 not found page
+ */
+function view404($title = '404 - Not Found')
+{
+    view('../error/404.php', null, $title);
+    exit();
+}
+
+/**
+ * Show error 403 forbidden access
+ */
+function pageForbidden($title = '403 - Forbidden')
+{
+    view('../error/403.php', null, $title);
+    exit();
 }
 
 ?>

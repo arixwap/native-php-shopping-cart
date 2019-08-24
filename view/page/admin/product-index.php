@@ -11,8 +11,8 @@
                 <span class="quantity">(<?=number_format($product['quantity'])?>)</span>
                 <span class="price">Rp. <?=number_format($product['price'])?></span>
                 <div class="secondary-content">
-                    <a href="<?=baseurl('product/edit/'.$product['id'])?>"><i class="material-icons blue-text text-lighten-1">edit</i></a>
-                    <a href="<?=baseurl('product/delete/'.$product['id'])?>"><i class="material-icons red-text text-lighten-2">delete</i></a>
+                    <a href="<?=baseurl('admin/product-edit/'.$product['id'])?>"><i class="material-icons blue-text text-lighten-1">edit</i></a>
+                    <a href="<?=baseurl('admin/product-delete/'.$product['id'])?>"><i class="material-icons red-text text-lighten-2">delete</i></a>
                 </div>
             </li>
         <?php endforeach; ?>

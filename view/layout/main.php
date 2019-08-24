@@ -19,7 +19,7 @@
             </ul>
             <!-- Mobile Menu -->
             <ul id="nav-mobile" class="sidenav">
-                <li><a href="<?=baseurl('shop/cart')?>"><i class="material-icons">shopping_cart</i></a></li>
+                <li><a href="<?=baseurl('shop/cart')?>">Cart <i class="material-icons">shopping_cart</i></a></li>
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>

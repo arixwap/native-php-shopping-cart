@@ -16,6 +16,10 @@ ul.menu-footer > li {
     margin-bottom: 0.3em;
 }
 
+button.btn.btn-block, a.btn.btn-block {
+    width: 100%;
+}
+
 .text-space {
     letter-spacing: 0.1em;
 }

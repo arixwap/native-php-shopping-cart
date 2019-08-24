@@ -45,17 +45,27 @@ class DatabaseClass
     public function query($string)
     {
         $result = false;
+        $query = $this->connection->query($string);
 
-        $result = $this->connection->query($string);
+        // Query String is GET Table Data / INSERT UPDATE
+        if (strpos(strtoupper($string), 'SELECT') !== false) {
 
-        if ($result->num_rows > 0) {
-
-            $rows = [];
-            while ($row = $result->fetch_assoc()) {
-                $rows[] = $row;
+            if ($query == true && $query->num_rows > 0) {
+                $rows = [];
+                while ($row = $query->fetch_assoc()) {
+                    $rows[] = $row;
+                }
+                $result = $rows;
             }
 
-            return $rows;
+        } else {
+
+            if ($this->connection->error) {
+                $result = $this->connection->error;
+            } else {
+                $result = $query;
+            }
+
         }
 
         return $result;

@@ -12,15 +12,17 @@ class ControllerClass
      */
     protected $db;
     protected $session;
+    protected $route;
 
     /**
      * Constructor Class
      */
     public function __construct()
     {
-        global $_CONFIG, $db;
+        global $_CONFIG, $db, $route;
 
         $this->db = $db;
+        $this->route = $route;
     }
 }
 

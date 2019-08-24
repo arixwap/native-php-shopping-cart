@@ -30,18 +30,23 @@ class RouteClass
 
         // Check if app class exist
         if ( ! file_exists('app/'.$className.'.php') ) {
-            return $this->pageNotFound();
+            view404();
         }
 
         // Load app class file
         include('app/'.$className.'.php');
         $class = new $className();
 
+        // Trim URI Segment if GET Query Parameter
+        if (strpos($methodName, '?') !== false) {
+            $methodName = substr($methodName, 0, strpos($methodName, '?'));
+        }
+
         // Convert URI Segment into method name
         $separator = false;
-        if (strpos($methodName, '-')) {
+        if (strpos($methodName, '-') !== false) {
             $separator = '-';
-        } else if (strpos($methodName, '_')) {
+        } else if (strpos($methodName, '_') !== false) {
             $separator = '_';
         }
         // -- //
@@ -57,30 +62,12 @@ class RouteClass
 
         // Check if method class exist
         if ( ! method_exists($class, $methodName) ) {
-            return $this->pageNotFound();
+            view404();
         }
 
         // Load class method
         $class->$methodName($paramName);
 
-    }
-
-    /**
-     * Show error 404 not found page
-     */
-    public function pageNotFound()
-    {
-        view('../error/404.php', null, '404 - Not Found');
-        exit();
-    }
-
-    /**
-     * Show error 403 forbidden access
-     */
-    public function pageForbidden()
-    {
-        view('../error/403.php', null, '403 - Forbidden');
-        exit();
     }
 }
 
