@@ -23,3 +23,7 @@ button.btn.btn-block, a.btn.btn-block {
 .text-space {
     letter-spacing: 0.1em;
 }
+
+.m-b-1 {
+    margin-bottom: 1em;
+}
