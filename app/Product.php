@@ -15,8 +15,13 @@ class Product extends ControllerClass
         $title = config('name').' - Product List';
 
         $data['products'] = $this->db->query('SELECT * FROM products');
+        foreach ($data['products'] as $key => $product) {
+            if ( ! $product['images'] ) {
+                $data['products'][$key]['images'] = baseurl('public/images/empty.png');
+            }
+        }
 
-        view('product-form', $data, $title);
+        view('product-index', $data, $title);
     }
 
     /**
@@ -25,7 +30,7 @@ class Product extends ControllerClass
      */
     public function create()
     {
-        echo 'Create product';
+        view('product-form');
     }
 
     /**

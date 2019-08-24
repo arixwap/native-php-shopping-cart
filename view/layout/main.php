@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="<?=baseurl('public/assets/materialize/materialize.min.css') ?>">
+        <link rel="stylesheet" href="<?=baseurl('public/assets/style.css') ?>">
     </head>
     <body>
         <!-- Navigation Menu -->
@@ -25,7 +26,9 @@
         </nav>
         <!-- End - Navigation Menu -->
         <!-- Main Content -->
-        <?php include($_VIEW['page']) ?>
+        <div class="container main-container">
+            <?php include($_VIEW['page']) ?>
+        </div>
         <!-- End - Main Content -->
         <script src="<?=baseurl('public/assets/jquery/jquery-3.4.1.min.js')?>"></script>
         <script type="text/javascript" src="<?=baseurl('public/assets/materialize/materialize.min.js') ?>"></script>
