@@ -50,6 +50,8 @@ class DatabaseClass
         // Query String is GET Table Data / INSERT UPDATE
         if (strpos(strtoupper($string), 'SELECT') !== false) {
 
+            $result = [];
+
             if ($query == true && $query->num_rows > 0) {
                 $rows = [];
                 while ($row = $query->fetch_assoc()) {
@@ -69,38 +71,6 @@ class DatabaseClass
         }
 
         return $result;
-    }
-
-    /**
-     * Get table data and return it as array
-     */
-    public function get($table, $select = '*', $condition = null)
-    {
-        //
-    }
-
-    /**
-     * Insert new data into table
-     */
-    public function insert($table, $data)
-    {
-        //
-    }
-
-    /**
-     * Update table in raw query string condition
-     */
-    public function update($table, $condition, $data)
-    {
-        //
-    }
-
-    /**
-     * Delete table in raw query string condition
-     */
-    public function delete($table, $condition)
-    {
-        //
     }
 
 }
