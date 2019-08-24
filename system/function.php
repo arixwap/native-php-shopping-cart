@@ -165,7 +165,7 @@ function view($page, $data = [], $title = null, $layout = null)
     $_VIEW['page'] = 'view/page/'.$page;
 
     // Extract Data Into Output, Unset unused data
-    extract($data);
+    if ($data != null) extract($data);
     unset($page, $data, $title, $layout);
 
     include($_VIEW['layout']);

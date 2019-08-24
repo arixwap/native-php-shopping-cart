@@ -47,9 +47,21 @@ class RouteClass
 
     }
 
+    /**
+     * Show error 404 not found page
+     */
     public function pageNotFound()
     {
-        include('view/error/404.php');
+        view('../error/404.php', null, '404 - Not Found');
+        exit();
+    }
+
+    /**
+     * Show error 403 forbidden access
+     */
+    public function pageForbidden()
+    {
+        view('../error/403.php', null, '403 - Forbidden');
         exit();
     }
 }

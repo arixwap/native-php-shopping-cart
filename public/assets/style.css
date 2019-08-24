@@ -1,3 +1,16 @@
+.icon-block {
+    padding: 0 15px;
+}
+
+.icon-block .material-icons {
+    font-size: inherit;
+}
+
 .main-container {
     margin-top : 50px;
+    min-height: 290px;
+}
+
+.text-space {
+    letter-spacing: 0.1em;
 }
