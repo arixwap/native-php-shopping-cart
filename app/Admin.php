@@ -59,7 +59,7 @@ class Admin extends ControllerClass
             $product['category_id'] = $category_id = 1;
             $product['name'] = $name = $_POST['name'];
             $product['slug'] = $slug = strtolower(str_replace(' ', '-', $_POST['name']));
-            $product['description'] = $description = $_POST['description'];
+            $product['description'] = $description = null;
             $product['quantity'] = $quantity = $_POST['quantity'];
             $product['price'] = $price = $_POST['price'];
             $datetime = date('Y-m-d H:i:s');
@@ -73,10 +73,9 @@ class Admin extends ControllerClass
                 $error = $query;
             }
         }
-        // -- //
 
         $title = config('name').' - Create Product';
-        $data['title'] = 'Input Product Data';
+        $data['title'] = 'Input Product';
         $data['product'] = $product;
         $data['submitUrl'] = baseurl('admin/product-create');
         $data['error'] = $error;
@@ -90,6 +89,11 @@ class Admin extends ControllerClass
      */
     public function productEdit($id)
     {
+        // Initial data
+        $product = $this->db->query("SELECT * FROM products WHERE id = '$id'");
+        if ( ! $product ) view404(); // Return error 404 if no query result
+        $product = $product[0];
+
         $error = false;
         // Update to Database if method POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -98,12 +102,12 @@ class Admin extends ControllerClass
             $product['category_id'] = $category_id = 1;
             $product['name'] = $name = $_POST['name'];
             $product['slug'] = $slug = strtolower(str_replace(' ', '-', $_POST['name']));
-            $product['description'] = $description = $_POST['description'];
+            $product['description'] = $description = null;
             $product['quantity'] = $quantity = $_POST['quantity'];
             $product['price'] = $price = $_POST['price'];
             $datetime = date('Y-m-d H:i:s');
 
-            // Insert to database
+            // Update to database
             $query = $this->db->query("UPDATE products SET category_id = '$category_id', name = '$name', slug = '$slug', description = '$description', quantity = '$quantity', price = '$price', updated_at = '$datetime' WHERE id = '$id'");
 
             if ($query === true) {
@@ -112,19 +116,9 @@ class Admin extends ControllerClass
                 $error = $query;
             }
         }
-        // -- //
-
-        // Initial data
-        $product = $this->db->query("SELECT * FROM products WHERE id = '$id'");
-        // Return error 404 if no query result
-        if ( ! $product ) {
-            view404();
-        }
-        // -- //
-        $product = $product[0];
 
         $title = config('name').' - Edit '.$product['name'];
-        $data['title'] = 'Edit Product Data';
+        $data['title'] = 'Edit Product';
         $data['product'] = $product;
         $data['submitUrl'] = baseurl('admin/product-edit/'.$id);
         $data['error'] = $error;
@@ -136,9 +130,143 @@ class Admin extends ControllerClass
      * Delete product
      * URL : admin/product-delete/{{id}}
      */
-    public function _productDelete($id)
+    public function productDelete($id)
     {
-        //
+        $this->db->query("DELETE FROM products WHERE id = '$id'");
+
+        redirect('admin/product');
+    }
+
+    /**
+     * Show Category List
+     * URL : admin/category
+     */
+    public function category()
+    {
+        $title = config('name').' - Category List';
+
+        $data['categories'] = $this->db->query('SELECT * FROM categories');
+
+        view('admin/category-index', $data, $title);
+    }
+
+    /**
+     * Create new category
+     * URL : admin/category-create
+     */
+    public function categoryCreate()
+    {
+        // Initial data
+        $category = [
+            'id' => null,
+            'parent_id' => null,
+            'name' => null,
+            'description' => null,
+        ];
+
+        $error = false;
+        // Store to Database if method POST
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            // Assign POST Data
+            $category['parent_id'] = $parent_id = $_POST['parent_id'];
+            $category['name'] = $name = $_POST['name'];
+            $category['slug'] = $slug = strtolower(str_replace(' ', '-', $_POST['name']));
+            $category['description'] = $description = null;
+            $datetime = date('Y-m-d H:i:s');
+
+            // Insert to database
+            $query = $this->db->query("INSERT INTO categories (parent_id, slug, name, description, created_at, updated_at) VALUES('$parent_id', '$slug', '$name', '$description', '$datetime', '$datetime')");
+
+            if ($query === true) {
+                redirect('admin/category?message=success');
+            } else {
+                $error = $query;
+            }
+        }
+
+        // Get Parent Category
+        $data['parentCategories'] = [];
+        $query = $this->db->query('SELECT * FROM categories');
+        if ($query) $data['parentCategories'] = $query;
+
+        $title = config('name').' - Create Category';
+        $data['title'] = 'Input Category';
+        $data['category'] = $category;
+        $data['submitUrl'] = baseurl('admin/category-create');
+        $data['error'] = $error;
+
+        view('admin/category-form', $data, $title);
+    }
+
+    /**
+     * Edit category
+     * URL : admin/category-edit
+     */
+    public function categoryEdit($id)
+    {
+        // Initial data
+        $category = $this->db->query("SELECT * FROM categories WHERE id = '$id'");
+        if ( ! $category ) view404(); // Return error 404 if no query result
+        $category = $category[0];
+
+        $error = false;
+        // Store to Database if method POST
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            // Assign POST Data
+            $category['parent_id'] = $parent_id = $_POST['parent_id'];
+            $category['name'] = $name = $_POST['name'];
+            $category['slug'] = $slug = strtolower(str_replace(' ', '-', $_POST['name']));
+            $category['description'] = $description = null;
+            $datetime = date('Y-m-d H:i:s');
+
+            // Update to database
+            $query = $this->db->query("UPDATE categories SET parent_id = '$parent_id', slug = '$slug', name = '$name', description = '$description', updated_at = '$datetime' WHERE id = '$id'");
+
+            if ($query === true) {
+                redirect('admin/category?message=success');
+            } else {
+                $error = $query;
+            }
+        }
+
+        // Get Parent Category
+        $data['parentCategories'] = [];
+        $query = $this->db->query('SELECT * FROM categories');
+        if ($query) $data['parentCategories'] = $query;
+
+        $title = config('name').' - Edit '.$category['name'];
+        $data['title'] = 'Edit Category';
+        $data['category'] = $category;
+        $data['submitUrl'] = baseurl('admin/category-edit/'.$id);
+        $data['error'] = $error;
+
+        view('admin/category-form', $data, $title);
+    }
+
+    /**
+     * Delete category
+     * URL : admin/category-delete/{{id}}
+     */
+    public function categoryDelete($id)
+    {
+        $this->db->query("DELETE FROM categories WHERE id = '$id'");
+
+        redirect('admin/category');
+    }
+
+    /**
+     * Index of Order
+     * URL : admin/order
+     */
+    public function order()
+    {
+        $title = config('name').' - Order List';
+
+        $data['orders'] = $this->db->query('SELECT * FROM orders');
+
+        view('admin/order-index', $data, $title);
     }
 
 }

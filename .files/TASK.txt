@@ -3,9 +3,9 @@ PROGRESS
 
 
 System Improvement :
+- Form Validation
 - Route URI to Class Method
 - Database Class Query Builder
-- Input Request Validation
 
 
 Membuat shopping cart menggunakan native php dengan css framework pilihan (bebas), jQuery (optional) dan database (mysql).
