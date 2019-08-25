@@ -8,11 +8,11 @@
             <br>
             <div class="row">
                 <div class="input-field col s12">
-                    <input name="name" type="text" class="validate" id="name" value="<?=$category['name']?>" data-length="100" autocomplete="off">
+                    <input name="name" type="text" class="validate character-counter" id="name" value="<?=$category['name']?>" data-length="100" autocomplete="off">
                     <label for="name">Category Name</label>
                 </div>
             </div>
-            <!-- <div class="row">
+            <div class="row">
                 <div class="input-field col s12">
                     <select name="parent_id" class="materialize-select">
                         <option value="0">No Category</option>
@@ -22,16 +22,16 @@
                     </select>
                     <label>Select Parent Category</label>
                 </div>
-            </div> -->
-            <!-- <div class="row">
+            </div>
+            <div class="row">
                 <div class="input-field col s12">
                     <textarea name="description" class="materialize-textarea" data-length="250"><?=$category['description']?></textarea>
                     <label>Description</label>
                 </div>
-            </div> -->
+            </div>
             <div class="row">
                 <div class="col l4 s6">
-                    <button type="submit" class="waves-effect waves-light btn btn-block">Submit</button>
+                    <button type="submit" class="blue waves-effect waves-light btn btn-block">Submit</button>
                 </div>
                 <div class="col l4 s6">
                     <a href="<?=baseurl('admin/category')?>" class="grey waves-effect waves-light btn btn-block">Back</a>

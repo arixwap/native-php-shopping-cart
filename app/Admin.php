@@ -6,7 +6,6 @@
  * Method called by URI
  * Example : /admin/index will call function index() in this class
  */
-
 class Admin extends ControllerClass
 {
     /**
@@ -27,6 +26,8 @@ class Admin extends ControllerClass
         $title = config('name').' - Product List';
 
         $data['products'] = $this->db->query('SELECT products.*, categories.name AS category_name FROM products JOIN categories ON products.category_id = categories.id');
+
+        // Set default image if not set
         foreach ($data['products'] as $key => $product) {
             if ( ! $product['images'] ) {
                 $data['products'][$key]['images'] = baseurl('public/images/empty.png');
@@ -56,13 +57,16 @@ class Admin extends ControllerClass
         // Store to Database if method POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+            dump($_FILES);
+            dd($_POST);
+
             // Assign POST Data
-            $product['category_id'] = $category_id = $_POST['category_id'];
-            $product['name'] = $name = $_POST['name'];
-            $product['slug'] = $slug = strtolower(str_replace(' ', '-', $_POST['name']));
-            $product['description'] = $description = null;
-            $product['quantity'] = $quantity = $_POST['quantity'];
-            $product['price'] = $price = $_POST['price'];
+            $product['category_id'] = $category_id = filter($_POST['category_id']);
+            $product['name'] = $name = filter($_POST['name']);
+            $product['slug'] = $slug = toKebabCase(filter($_POST['name']));
+            $product['description'] = $description = filter($_POST['description']);
+            $product['quantity'] = $quantity = filter($_POST['quantity']);
+            $product['price'] = $price = filter($_POST['price']);
             $datetime = date('Y-m-d H:i:s');
 
             // Insert to database
@@ -94,6 +98,7 @@ class Admin extends ControllerClass
     public function productEdit($id)
     {
         // Initial data
+        $id = filter($id);
         $product = $this->db->query("SELECT * FROM products WHERE id = '$id'");
         if ( ! $product ) view404(); // Return error 404 if no query result
         $product = $product[0];
@@ -103,12 +108,12 @@ class Admin extends ControllerClass
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Assign POST Data
-            $product['category_id'] = $category_id = $_POST['category_id'];
-            $product['name'] = $name = $_POST['name'];
-            $product['slug'] = $slug = strtolower(str_replace(' ', '-', $_POST['name']));
-            $product['description'] = $description = null;
-            $product['quantity'] = $quantity = $_POST['quantity'];
-            $product['price'] = $price = $_POST['price'];
+            $product['category_id'] = $category_id = filter($_POST['category_id']);
+            $product['name'] = $name = filter($_POST['name']);
+            $product['slug'] = $slug = toKebabCase(filter($_POST['name']));
+            $product['description'] = $description = filter($_POST['description']);
+            $product['quantity'] = $quantity = filter($_POST['quantity']);
+            $product['price'] = $price = filter($_POST['price']);
             $datetime = date('Y-m-d H:i:s');
 
             // Update to database
@@ -139,9 +144,65 @@ class Admin extends ControllerClass
      */
     public function productDelete($id)
     {
+        $id = filter($id);
         $this->db->query("DELETE FROM products WHERE id = '$id'");
 
         redirect('admin/product');
+    }
+
+    /**
+     * DEVELOPMENT - Save Images
+     */
+    private function saveImages()
+    {
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+        // Check if image file is a actual image or fake image
+        if(isset($_POST["submit"])) {
+            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+            if($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+            } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+            }
+        }
+
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            echo "Sorry, file already exists.";
+            $uploadOk = 0;
+        }
+
+        // Check file size
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+
+        // Allow certain file formats
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif" ) {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+
+        // if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
     }
 
     /**
@@ -176,10 +237,11 @@ class Admin extends ControllerClass
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Assign POST Data
-            $category['parent_id'] = $parent_id = $_POST['parent_id'];
-            $category['name'] = $name = $_POST['name'];
-            $category['slug'] = $slug = strtolower(str_replace(' ', '-', $_POST['name']));
-            $category['description'] = $description = null;
+            $category['parent_id'] = $parent_id = filter($_POST['parent_id']);
+            $category['name'] = $name = filter($_POST['name']);
+            $category['slug'] = $slug = toKebabCase(filter($_POST['name']));
+            $_POST['description'] = null;
+            $category['description'] = $description = filter($_POST['description']);
             $datetime = date('Y-m-d H:i:s');
 
             // Insert to database
@@ -213,6 +275,7 @@ class Admin extends ControllerClass
     public function categoryEdit($id)
     {
         // Initial data
+        $id = filter($id);
         $category = $this->db->query("SELECT * FROM categories WHERE id = '$id'");
         if ( ! $category ) view404(); // Return error 404 if no query result
         $category = $category[0];
@@ -222,10 +285,11 @@ class Admin extends ControllerClass
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Assign POST Data
-            $category['parent_id'] = $parent_id = $_POST['parent_id'];
-            $category['name'] = $name = $_POST['name'];
-            $category['slug'] = $slug = strtolower(str_replace(' ', '-', $_POST['name']));
-            $category['description'] = $description = null;
+            $category['parent_id'] = $parent_id = filter($_POST['parent_id']);
+            $category['name'] = $name = filter($_POST['name']);
+            $category['slug'] = $slug = toKebabCase(filter($_POST['name']));
+            $_POST['description'] = null;
+            $category['description'] = $description = filter($_POST['description']);
             $datetime = date('Y-m-d H:i:s');
 
             // Update to database
@@ -258,6 +322,7 @@ class Admin extends ControllerClass
      */
     public function categoryDelete($id)
     {
+        $id = filter($id);
         $this->db->query("DELETE FROM categories WHERE id = '$id'");
 
         redirect('admin/category');

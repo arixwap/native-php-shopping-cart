@@ -1,6 +1,7 @@
 PROGRESS
-- Form Input Product
-
+- Form Upload Product Images
+- Favicon
+- Function Refresh Images Link
 
 # Brainstorming
 - Home
@@ -12,13 +13,17 @@ PROGRESS
 
 
 # Improvement :
+- Home :
+  - Filter Category
+  - Search Ajax
 - Product :
-  - Desriptiom
+  - Filter Category
+  - Desription
   - Nested Category
   - Images
 - System :
- - Form Validation
- - Route URI to Class Method
+ - Input Request Validation
+ - Controller Unlimited Parameter (URI)
  - Database Class Query Builder
 
 

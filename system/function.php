@@ -242,4 +242,15 @@ function toPascalCase($string)
     return ucfirst(toCamelCase($string));
 }
 
+/**
+ * Filter data from input  request
+ */
+function filter($input)
+{
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    return $input;
+}
+
 ?>

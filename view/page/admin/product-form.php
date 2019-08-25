@@ -1,14 +1,36 @@
 <div class="container">
     <div class="row">
-        <form class="col l8 s12 offset-l2" action="<?=$submitUrl?>" method="post">
+        <form class="col l8 s12 offset-l2" action="<?=$submitUrl?>" method="post" enctype="multipart/form-data">
             <?php if ($error) : ?>
                 <div class="red-text"><?=$error?></div>
             <?php endif; ?>
             <h5 class="grey-text"><?=$title?></h5>
             <br>
             <div class="row">
+                <div id="preview-image-container">
+                    <!-- Example Images - -->
+                    <div class="hide col s6 l4 preview-image master">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="" alt="" class="responsive-img">
+                                <a class="btn-floating btn-delete halfway-fab waves-effect waves-light red darken-1"><i class="material-icons">clear</i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End - Example Preview Image -->
+                </div>
+                <label>
+                <div class="col s6 l4">
+                    <div class="square-upload-image valign-wrapper materialize-tooltip" target="input-product-image" data-position="right" data-tooltip="Upload Product Images">
+                        <span><i class="material-icons">add</i></span>
+                    </div>
+                </div>
+                <input type="file" class="hide input-image" id="input-product-image" target="preview-image-container" accept="image/x-png,image/gif,image/jpeg">
+                <label>
+            </div>
+            <div class="row">
                 <div class="input-field col s12">
-                    <input name="name" type="text" class="validate" id="name" value="<?=$product['name']?>" data-length="100" autocomplete="off">
+                    <input name="name" type="text" class="validate character-counter" id="name" value="<?=$product['name']?>" data-length="100" required>
                     <label for="name">Product Name</label>
                 </div>
             </div>
@@ -23,25 +45,25 @@
                     <label>Select Category</label>
                 </div>
             </div>
-            <!-- <div class="row">
+            <div class="row">
                 <div class="input-field col s12">
-                    <textarea name="description" class="materialize-textarea" data-length="250"><?=$product['description']?></textarea>
+                    <textarea name="description" class="materialize-textarea char-counter" rows="2" data-length="250"><?=$product['description']?></textarea>
                     <label>Description</label>
                 </div>
-            </div> -->
+            </div>
             <div class="row">
                 <div class="input-field col l8 s12">
-                    <input name="price" type="number" class="validate" id="price" value="<?=$product['price']?>" min="0">
+                    <input name="price" type="number" class="validate" id="price" value="<?=$product['price']?>" min="0" required>
                     <label for="price">Price</label>
                 </div>
                 <div class="input-field col l4 s12">
-                    <input name="quantity" type="number" class="validate" id="quantity" value="<?=$product['quantity']?>" min="0">
+                    <input name="quantity" type="number" class="validate" id="quantity" value="<?=$product['quantity']?>" min="0" required>
                     <label for="quantity">Quantity</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col l4 s6">
-                    <button type="submit" class="waves-effect waves-light btn btn-block">Submit</button>
+                    <button type="submit" class="blue waves-effect waves-light btn btn-block">Submit</button>
                 </div>
                 <div class="col l4 s6">
                     <a href="<?=baseurl('admin/product')?>" class="grey waves-effect waves-light btn btn-block">Back</a>
