@@ -23,7 +23,7 @@
                 <ul class="collection">
                     <?php foreach($products as $key => $product) : ?>
                         <li class="collection-item avatar">
-                            <img src="<?=$product['images']?>" alt="<?=$product['slug']?>" class="circle">
+                            <img src="<?=getImage($product['images'])?>" alt="<?=$product['slug']?>" class="circle">
                             <b><span class="title bold"><?=$product['name']?></span></b>
                             <br/>
                             <span class="category">Category : <b><?=$product['category_name']?></b></span>

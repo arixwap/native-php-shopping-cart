@@ -20,7 +20,7 @@ $(document).ready(function(){
 
 
 /**
- * JQuery Preview File Before Upload Images
+ * Preview File Before Upload Images
  */
 $(document).on('change', '.input-image', function(e){
     let files = $(this)[0].files;

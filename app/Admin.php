@@ -25,14 +25,7 @@ class Admin extends ControllerClass
     {
         $title = config('name').' - Product List';
 
-        $data['products'] = $this->db->query('SELECT products.*, categories.name AS category_name FROM products JOIN categories ON products.category_id = categories.id');
-
-        // Set default image if not set
-        foreach ($data['products'] as $key => $product) {
-            if ( ! $product['images'] ) {
-                $data['products'][$key]['images'] = baseurl('public/images/empty.png');
-            }
-        }
+        $data['products'] = $this->db->query('SELECT products.*, categories.name AS category_name FROM products LEFT JOIN categories ON products.category_id = categories.id');
 
         view('admin/product-index', $data, $title);
     }
@@ -51,14 +44,14 @@ class Admin extends ControllerClass
             'description' => null,
             'quantity' => null,
             'price' => null,
+            'prev_images' => null,
         ];
 
         $error = false;
         // Store to Database if method POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            dump($_FILES);
-            dd($_POST);
+            $validation = true;
 
             // Assign POST Data
             $product['category_id'] = $category_id = filter($_POST['category_id']);
@@ -69,13 +62,30 @@ class Admin extends ControllerClass
             $product['price'] = $price = filter($_POST['price']);
             $datetime = date('Y-m-d H:i:s');
 
-            // Insert to database
-            $query = $this->db->query("INSERT INTO products (category_id, slug, name, description, quantity, price, created_at, updated_at) VALUES('$category_id', '$slug', '$name', '$description', '$quantity', '$price', '$datetime', '$datetime')");
+            // Upload Images
+            $images = '';
+            if (isset($_FILES['images']['name'])) {
 
-            if ($query === true) {
-                redirect('admin/product?message=success');
-            } else {
-                $error = $query;
+                $upload = $this->uploadProductImages($_FILES['images'], $slug);
+
+                if ( $upload['status'] == true ) {
+                    $images = json_encode($upload['response']);
+                } else {
+                    $validation = false;
+                    $error = $upload['response'];
+                }
+            }
+
+            if ($validation) {
+                // Insert to database
+                $query = $this->db->query("INSERT INTO products (category_id, slug, name, description, quantity, price, images, created_at, updated_at) VALUES('$category_id', '$slug', '$name', '$description', '$quantity', '$price', '$images', '$datetime', '$datetime')");
+
+                if ($query === true) {
+                    redirect('admin/product?message=success');
+                } else {
+                    dump($query);
+                    $error = $query;
+                }
             }
         }
 
@@ -107,6 +117,8 @@ class Admin extends ControllerClass
         // Update to Database if method POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+            $validation = true;
+
             // Assign POST Data
             $product['category_id'] = $category_id = filter($_POST['category_id']);
             $product['name'] = $name = filter($_POST['name']);
@@ -116,13 +128,15 @@ class Admin extends ControllerClass
             $product['price'] = $price = filter($_POST['price']);
             $datetime = date('Y-m-d H:i:s');
 
-            // Update to database
-            $query = $this->db->query("UPDATE products SET category_id = '$category_id', name = '$name', slug = '$slug', description = '$description', quantity = '$quantity', price = '$price', updated_at = '$datetime' WHERE id = '$id'");
+            if ($validation) {
+                // Update to database
+                $query = $this->db->query("UPDATE products SET category_id = '$category_id', name = '$name', slug = '$slug', description = '$description', quantity = '$quantity', price = '$price', updated_at = '$datetime' WHERE id = '$id'");
 
-            if ($query === true) {
-                redirect('admin/product?message=success');
-            } else {
-                $error = $query;
+                if ($query === true) {
+                    redirect('admin/product?message=success');
+                } else {
+                    $error = $query;
+                }
             }
         }
 
@@ -145,64 +159,79 @@ class Admin extends ControllerClass
     public function productDelete($id)
     {
         $id = filter($id);
-        $this->db->query("DELETE FROM products WHERE id = '$id'");
+        $result = $this->db->query("DELETE FROM products WHERE id = '$id'");
 
-        redirect('admin/product');
+        if ($result) {
+            redirect('admin/product?message=success');
+        } else {
+            redirect('admin/product?message=failed');
+        }
     }
 
     /**
-     * DEVELOPMENT - Save Images
+     * Save Images
      */
-    private function saveImages()
+    private function uploadProductImages($images, $prefix = null)
     {
-        $target_dir = "uploads/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        $exts = ['jpg', 'jpeg', 'png', 'gif'];
+        $saveDir = getcwd().'\public\images\products\\';
+        $url = baseurl('public/images/products/');
 
-        // Check if image file is a actual image or fake image
-        if(isset($_POST["submit"])) {
-            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-            if($check !== false) {
-                echo "File is an image - " . $check["mime"] . ".";
-                $uploadOk = 1;
-            } else {
-                echo "File is not an image.";
-                $uploadOk = 0;
+        $uploads = [];
+        foreach ($images['name'] as $key => $filename) {
+
+            // Check image file extension
+            $filetype = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            if ( ! in_array($filetype, $exts) ) {
+                return [
+                    'status' => false,
+                    'response' => 'File '.$filename.' is not valid jpg or png format',
+                ];
             }
-        }
 
-        // Check if file already exists
-        if (file_exists($target_file)) {
-            echo "Sorry, file already exists.";
-            $uploadOk = 0;
-        }
-
-        // Check file size
-        if ($_FILES["fileToUpload"]["size"] > 500000) {
-            echo "Sorry, your file is too large.";
-            $uploadOk = 0;
-        }
-
-        // Allow certain file formats
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif" ) {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
-        }
-
-        // Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == 0) {
-            echo "Sorry, your file was not uploaded.";
-
-        // if everything is ok, try to upload file
-        } else {
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-            } else {
-                echo "Sorry, there was an error uploading your file.";
+            // Check if file is real image or fake
+            if ( ! getimagesize($images["tmp_name"][$key]) ) {
+                return [
+                    'status' => false,
+                    'response' => 'File '.$filename.' is not an image',
+                ];
             }
+
+            // Check Image Size
+            if ( $images["size"][$key] > 2000000 ) {
+                return [
+                    'status' => false,
+                    'response' => 'Image '.$filename.' size must be below 2MB',
+                ];
+            }
+
+            $prevName = $filename;
+            $filename = $prefix.'-'.date('YmdHis').'-'.$key.'.'.$filetype;
+            $uploads[] = [
+                'temp' => $images["tmp_name"][$key],
+                'save' => $saveDir.basename($filename),
+                'filename' => $filename,
+                'prev_name' => $prevName,
+            ];
         }
+
+        // Move Upload Image from temp directory
+        $images = [];
+        foreach ($uploads as $file) {
+            if( ! move_uploaded_file($file['temp'], $file['save']) ) {
+                return [
+                    'status' => false,
+                    'response' => 'Error while move file '.$file['prev_name'],
+                ];
+            }
+
+            $images[] = $url.$file['filename'];
+        }
+
+        return [
+            'status' => true,
+            'response' => $images,
+        ];
     }
 
     /**
@@ -236,6 +265,8 @@ class Admin extends ControllerClass
         // Store to Database if method POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+            $validation = true;
+
             // Assign POST Data
             $category['parent_id'] = $parent_id = filter($_POST['parent_id']);
             $category['name'] = $name = filter($_POST['name']);
@@ -244,13 +275,15 @@ class Admin extends ControllerClass
             $category['description'] = $description = filter($_POST['description']);
             $datetime = date('Y-m-d H:i:s');
 
-            // Insert to database
-            $query = $this->db->query("INSERT INTO categories (parent_id, slug, name, description, created_at, updated_at) VALUES('$parent_id', '$slug', '$name', '$description', '$datetime', '$datetime')");
+            if ($validation) {
+                // Insert to database
+                $query = $this->db->query("INSERT INTO categories (parent_id, slug, name, description, created_at, updated_at) VALUES('$parent_id', '$slug', '$name', '$description', '$datetime', '$datetime')");
 
-            if ($query === true) {
-                redirect('admin/category?message=success');
-            } else {
-                $error = $query;
+                if ($query === true) {
+                    redirect('admin/category?message=success');
+                } else {
+                    $error = $query;
+                }
             }
         }
 
@@ -284,6 +317,8 @@ class Admin extends ControllerClass
         // Store to Database if method POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+            $validation = true;
+
             // Assign POST Data
             $category['parent_id'] = $parent_id = filter($_POST['parent_id']);
             $category['name'] = $name = filter($_POST['name']);
@@ -292,13 +327,15 @@ class Admin extends ControllerClass
             $category['description'] = $description = filter($_POST['description']);
             $datetime = date('Y-m-d H:i:s');
 
-            // Update to database
-            $query = $this->db->query("UPDATE categories SET parent_id = '$parent_id', slug = '$slug', name = '$name', description = '$description', updated_at = '$datetime' WHERE id = '$id'");
+            if ($validation) {
+                // Update to database
+                $query = $this->db->query("UPDATE categories SET parent_id = '$parent_id', slug = '$slug', name = '$name', description = '$description', updated_at = '$datetime' WHERE id = '$id'");
 
-            if ($query === true) {
-                redirect('admin/category?message=success');
-            } else {
-                $error = $query;
+                if ($query === true) {
+                    redirect('admin/category?message=success');
+                } else {
+                    $error = $query;
+                }
             }
         }
 
@@ -323,9 +360,13 @@ class Admin extends ControllerClass
     public function categoryDelete($id)
     {
         $id = filter($id);
-        $this->db->query("DELETE FROM categories WHERE id = '$id'");
+        $result = $this->db->query("DELETE FROM categories WHERE id = '$id'");
 
-        redirect('admin/category');
+        if ($result) {
+            redirect('admin/category?message=success');
+        } else {
+            redirect('admin/category?message=failed');
+        }
     }
 
     /**
