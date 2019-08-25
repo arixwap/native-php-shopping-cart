@@ -253,4 +253,27 @@ function filter($input)
     return $input;
 }
 
+/**
+ * Parse string / array into Image Url
+ */
+function getImage($images, $all = false, $default = null)
+{
+    // Decode to JSON Array Image
+    if ( ! is_array($images) ) {
+        $images = json_decode($images);
+    }
+
+    // Check and return if images is Array
+    if (is_array($images)) {
+        return $all ? $images : $images[0];
+    }
+
+    // Set default image if not set
+    if ($default == null) {
+        $default = baseurl('public/images/empty.png');
+    }
+
+    return $default;
+}
+
 ?>
