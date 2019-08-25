@@ -15,11 +15,13 @@
         <div class="nav-wrapper container"><a id="logo-container" href="<?=baseurl()?>" class="brand-logo">Native Cart</a>
             <!-- Main Menu -->
             <ul class="right hide-on-med-and-down">
+                <li><a href="<?=baseurl('admin')?>">Admin</a></li>
                 <li><a href="<?=baseurl('shop/cart')?>"><i class="material-icons">shopping_cart</i></a></li>
             </ul>
             <!-- Mobile Menu -->
             <ul id="nav-mobile" class="sidenav">
                 <li><a href="<?=baseurl('shop/cart')?>">Cart <i class="material-icons">shopping_cart</i></a></li>
+                <li><a href="<?=baseurl('admin')?>">Admin <i class="material-icons">people</i></a></li>
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>

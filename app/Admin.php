@@ -257,6 +257,14 @@ class Admin extends ControllerClass
     }
 
     /**
+     * Arrange Sub Categories
+     */
+    private function categoryArrange($categories)
+    {
+        return $categories;
+    }
+
+    /**
      * Index of Order
      * URL : admin/order
      */
