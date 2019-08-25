@@ -16,11 +16,13 @@ PROGRESS
 
 # Improvement :
 - Home :
+  - Carousel Images
   - Filter Category
   - Search Ajax
-- Product :
-  - Filter Category
-  - Desription
+  - Product Detail Page
+- Admin :
+  - Product Filter Category
+  - Desription Tooltip
   - Nested Category
 - System :
  - Favicon
