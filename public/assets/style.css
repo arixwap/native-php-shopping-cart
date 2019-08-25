@@ -1,14 +1,10 @@
-.icon-block {
-    padding: 0 15px;
-}
-
-.icon-block .material-icons {
-    font-size: inherit;
-}
-
 .main-container {
     margin-top : 50px;
     min-height: 290px;
+}
+
+button.btn.btn-block, a.btn.btn-block {
+    width: 100%;
 }
 
 ul.menu-footer > li {
@@ -16,12 +12,34 @@ ul.menu-footer > li {
     margin-bottom: 0.3em;
 }
 
-button.btn.btn-block, a.btn.btn-block {
-    width: 100%;
+.upload-image-area {
+    min-height: 150px;
+    border: 2px #aaa dashed;
+    text-align: center;
+    cursor: pointer;
+}
+
+.upload-image-area > span {
+    position: relative;
+    top: 60px;
+    color: lightgray;
+    font-size: 1.2em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    word-spacing: 0.3em;
 }
 
 .text-space {
     letter-spacing: 0.1em;
+}
+
+.icon-block {
+    padding: 0 15px;
+}
+
+.icon-block .material-icons {
+    font-size: inherit;
 }
 
 .m-b-1 {
