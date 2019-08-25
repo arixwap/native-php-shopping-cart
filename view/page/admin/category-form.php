@@ -12,7 +12,7 @@
                     <label for="name">Category Name</label>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="input-field col s12">
                     <select name="parent_id" class="materialize-select">
                         <option value="0">No Category</option>
@@ -22,7 +22,7 @@
                     </select>
                     <label>Select Parent Category</label>
                 </div>
-            </div>
+            </div> -->
             <!-- <div class="row">
                 <div class="input-field col s12">
                     <textarea name="description" class="materialize-textarea" data-length="250"><?=$category['description']?></textarea>

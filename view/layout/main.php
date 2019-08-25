@@ -43,7 +43,7 @@
                     <h5 class="white-text">Admin</h5>
                     <ul class="menu-footer">
                         <li><a class="white-text" href="<?=baseurl('admin/product')?>">Product</a></li>
-                        <li><a class="white-text" href="<?=baseurl('admin/category')?>">Category</a></li>
+                        <li><a class="white-text" href="<?=baseurl('admin-product/category')?>">Category</a></li>
                         <li><a class="white-text" href="<?=baseurl('admin/order')?>">Order</a></li>
                     </ul>
                 </div>

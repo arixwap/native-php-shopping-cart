@@ -26,7 +26,7 @@ class Admin extends ControllerClass
     {
         $title = config('name').' - Product List';
 
-        $data['products'] = $this->db->query('SELECT * FROM products');
+        $data['products'] = $this->db->query('SELECT products.*, categories.name AS category_name FROM products JOIN categories ON products.category_id = categories.id');
         foreach ($data['products'] as $key => $product) {
             if ( ! $product['images'] ) {
                 $data['products'][$key]['images'] = baseurl('public/images/empty.png');
@@ -45,6 +45,7 @@ class Admin extends ControllerClass
         // Initial data
         $product = [
             'id' => null,
+            'category_id' => null,
             'name' => null,
             'description' => null,
             'quantity' => null,
@@ -56,7 +57,7 @@ class Admin extends ControllerClass
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Assign POST Data
-            $product['category_id'] = $category_id = 1;
+            $product['category_id'] = $category_id = $_POST['category_id'];
             $product['name'] = $name = $_POST['name'];
             $product['slug'] = $slug = strtolower(str_replace(' ', '-', $_POST['name']));
             $product['description'] = $description = null;
@@ -73,6 +74,9 @@ class Admin extends ControllerClass
                 $error = $query;
             }
         }
+
+        // Fetch Categories
+        $data['categories'] = $this->db->query("SELECT * FROM categories");
 
         $title = config('name').' - Create Product';
         $data['title'] = 'Input Product';
@@ -99,7 +103,7 @@ class Admin extends ControllerClass
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Assign POST Data
-            $product['category_id'] = $category_id = 1;
+            $product['category_id'] = $category_id = $_POST['category_id'];
             $product['name'] = $name = $_POST['name'];
             $product['slug'] = $slug = strtolower(str_replace(' ', '-', $_POST['name']));
             $product['description'] = $description = null;
@@ -116,6 +120,9 @@ class Admin extends ControllerClass
                 $error = $query;
             }
         }
+
+        // Fetch Categories
+        $data['categories'] = $this->db->query("SELECT * FROM categories");
 
         $title = config('name').' - Edit '.$product['name'];
         $data['title'] = 'Edit Product';
@@ -254,14 +261,6 @@ class Admin extends ControllerClass
         $this->db->query("DELETE FROM categories WHERE id = '$id'");
 
         redirect('admin/category');
-    }
-
-    /**
-     * Arrange Sub Categories
-     */
-    private function categoryArrange($categories)
-    {
-        return $categories;
     }
 
     /**

@@ -21,7 +21,7 @@
             <?php if (count($orders) > 0) : ?>
                 <?= dump($orders) ?>
             <?php else : ?>
-                <h5 class="grey-text center-align">No Order List</h5>
+                <h5 class="grey-text">No Order List</h5>
             <?php endif; ?>
         </div>
     </div>

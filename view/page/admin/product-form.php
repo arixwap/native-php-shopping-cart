@@ -12,6 +12,17 @@
                     <label for="name">Product Name</label>
                 </div>
             </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <select name="category_id" class="materialize-select">
+                        <option value="0">No Category</option>
+                        <?php foreach ($categories as $key => $category) : ?>
+                            <option value="<?=$category['id']?>" <?= ($product['category_id'] == $category['id']) ? 'selected' : '' ?>><?=$category['name']?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <label>Select Category</label>
+                </div>
+            </div>
             <!-- <div class="row">
                 <div class="input-field col s12">
                     <textarea name="description" class="materialize-textarea" data-length="250"><?=$product['description']?></textarea>

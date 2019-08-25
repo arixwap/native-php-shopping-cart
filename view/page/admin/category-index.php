@@ -19,6 +19,7 @@
     <div class="row">
         <div class="col s12">
             <?php if (count($categories) > 0) : ?>
+                <h5 class="grey-text">Category List</h5>
                 <ul class="collection">
                     <?php foreach($categories as $key => $category) : ?>
                         <li class="collection-item">
@@ -31,7 +32,7 @@
                     <?php endforeach; ?>
                 </ul>
             <?php else : ?>
-                <h5 class="grey-text center-align">No Category List</h5>
+                <h5 class="grey-text">No Category List</h5>
             <?php endif; ?>
         </div>
     </div>
