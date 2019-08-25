@@ -43,8 +43,8 @@ class RouteClass
         // Trim URI Query and convert method name to camel case
         if (strpos($methodName, '?') !== false) {
             $methodName = substr($methodName, 0, strpos($methodName, '?'));
-            $methodName = toCamelCase($methodName);
         }
+        $methodName = toCamelCase($methodName);
 
         // Check if method class exist
         if ( ! method_exists($class, $methodName) ) {
