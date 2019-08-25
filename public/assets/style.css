@@ -13,9 +13,14 @@
     font-size: inherit;
 }
 
+.product small {
+    color: #aaa;
+    font-size: 0.5em;
+}
+
 .product .buy {
     position: relative;
-    top: -80px;
+    top: -30px;
 }
 
 /**

@@ -15,7 +15,7 @@ class Shop extends ControllerClass
      */
     public function index()
     {
-        $data['products'] = $this->db->query("SELECT products.*, categories.name AS category_name FROM products JOIN categories ON products.category_id = categories.id WHERE products.quantity > 0");
+        $data['products'] = $this->db->query("SELECT products.*, categories.name AS category_name FROM products LEFT JOIN categories ON products.category_id = categories.id WHERE products.quantity > 0");
 
         view('home', $data);
     }
@@ -35,7 +35,7 @@ class Shop extends ControllerClass
      */
     public function cart()
     {
-        view('example');
+        view('cart');
     }
 
 }

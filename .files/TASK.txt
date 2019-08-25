@@ -1,7 +1,9 @@
 PROGRESS
-- Edit Images
-- Favicon
-- Function Refresh Images Link
+- Cart Page
+- Checkout Page
+- Order List Page
+- Order List Detail
+
 
 # Brainstorming
 - Home
@@ -21,6 +23,8 @@ PROGRESS
   - Desription
   - Nested Category
 - System :
+ - Favicon
+ - Function Refresh Images Link
  - Input Request Validation
  - Controller Unlimited Parameter (URI)
  - Database Class Query Builder

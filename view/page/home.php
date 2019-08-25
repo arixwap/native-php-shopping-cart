@@ -3,16 +3,22 @@
         <?php foreach (chunk($products, 4) as $rows) : ?>
             <div class="row">
                 <?php foreach ($rows as $product) : ?>
-                    <div class="col s12 m3 m-b-2 product">
+                    <div class="col s12 m3 product">
                         <div class="icon-block">
                             <div class="square valign-wrapper">
                                 <div><img class="responsive-img product-card" src="<?=getImage($product['images'])?>" alt="<?=$product['slug']?>"></div>
                             </div>
-                            <h5><?=$product['name']?> <i class="material-icons"></i></h5>
-                            <div class="left">
-                                <span class="light">Rp. <?=number_format($product['price'])?></span>
+                            <div>
+                                <h5>
+                                    <?=$product['name']?>
+                                    <br>
+                                    <small class="grey-text"><?=$product['category_name']?></small>
+                                </h5>
+                                <div class="light">
+                                    Rp. <?=number_format($product['price'])?>
+                                    <a href="<?=baseurl('shop/cart?product='.$product['id'])?>" class="right orange waves-effect waves-light btn buy">Buy</a>
+                                </div>
                             </div>
-                            <button class="orange waves-effect waves-light btn btn-small right buy">Buy</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
