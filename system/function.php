@@ -198,4 +198,48 @@ function pageForbidden($title = '403 - Forbidden')
     exit();
 }
 
+/**
+ * Function convert string to snake_case
+ */
+function toSnakeCase($string)
+{
+    preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $string, $words);
+    $words = $words[0];
+    foreach ($words as &$word) {
+        $word = ($word == strtoupper($word)) ? strtolower($word) : lcfirst($word);
+    }
+
+    return implode('_', $words);
+}
+
+/**
+ * Function convert string to kebab-case
+ */
+function toKebabCase($string)
+{
+    return str_replace('_', '-', toSnakeCase($string));
+}
+
+/**
+ * Function convert string to camelCase
+ */
+function toCamelCase($string)
+{
+    $words = explode('_', toSnakeCase($string));
+    foreach ($words as $key => $word) {
+        $words[$key] = ucfirst($word);
+    }
+    $words[0] = lcfirst($words[0]);
+
+    return implode('', $words);
+}
+
+/**
+ * Function convert string to PascalCase
+ */
+function toPascalCase($string)
+{
+    return ucfirst(toCamelCase($string));
+}
+
 ?>
