@@ -18,14 +18,25 @@
                         </div>
                     </div>
                     <!-- End - Example Preview Image -->
+                    <?php foreach (getImage($product['images'], true, null) as $key => $image) : ?>
+                        <div class="col s6 l4 preview-image">
+                            <div class="card">
+                                <div class="card-image">
+                                    <img src="<?=$image?>" alt="<?=$product['slug']?>" class="responsive-img">
+                                    <a class="btn-floating btn-delete halfway-fab waves-effect waves-light red darken-1"><i class="material-icons">clear</i></a>
+                                </div>
+                            </div>
+                            <input type="hidden" name="prev_images[]" value="<?=$image?>">
+                        </div>
+                    <?php endforeach; ?>
                 </div>
                 <label>
-                <div class="col s6 l4">
-                    <div class="square-upload-image valign-wrapper materialize-tooltip" data-position="right" data-tooltip="Upload Product Images">
-                        <span><i class="material-icons">add</i></span>
+                    <div class="col s6 l4">
+                        <div class="square square-upload-image valign-wrapper materialize-tooltip" data-position="right" data-tooltip="Upload Product Images">
+                            <div><i class="material-icons">add</i></div>
+                        </div>
                     </div>
-                </div>
-                <input type="file" class="hide input-image" target="container-preview-image" accept="image/x-png,image/gif,image/jpeg">
+                    <input type="file" class="hide input-image" target="container-preview-image" accept="image/x-png,image/gif,image/jpeg">
                 <label>
             </div>
             <div class="row">

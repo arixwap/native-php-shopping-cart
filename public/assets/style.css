@@ -2,7 +2,7 @@
  * Main Style
  */
 .main-container {
-    margin-top : 50px;
+    margin-top: 50px;
     min-height: 290px;
 }
 .icon-block {
@@ -13,30 +13,37 @@
     font-size: inherit;
 }
 
+.product .buy {
+    position: relative;
+    top: -80px;
+}
 
 /**
  * Component Style
  */
-.square-upload-image {
+.square {
     position: relative;
     width: 100%;
     height: 100%;
-    border: 2px #aaa dashed;
     text-align: center;
-    cursor: pointer;
-}
+ }
 
-.square-upload-image:after {
+.square:after {
     content: "";
     display: block;
     padding-bottom: 100%;
 }
 
-.square-upload-image span {
+.square > * {
     width: 100%;
 }
 
-.square-upload-image span i {
+.square-upload-image {
+    border: 2px #aaa dashed;
+    cursor: pointer;
+}
+
+.square-upload-image i {
     color: #aaa;
     font-size: 4em;
 }
@@ -48,6 +55,10 @@ button.btn.btn-block, a.btn.btn-block {
 .card .card-image .btn-delete {
     top : -20px;
     right : -20px;
+}
+
+img.responsive-img.product-card {
+    max-height: 150px;
 }
 
 
@@ -64,5 +75,9 @@ button.btn.btn-block, a.btn.btn-block {
 }
 
 .m-b-1 {
-    margin-bottom: 1em;
+    margin-bottom: 1em !important;
+}
+
+.m-b-2 {
+    padding-bottom: 2em !important;
 }

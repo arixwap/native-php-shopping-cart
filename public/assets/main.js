@@ -15,14 +15,13 @@
 $(document).ready(function(){
     $('select.materialize-select').formSelect();
     $('textarea.character-counter, input.character-counter').characterCounter();
-    $('.materialize-tootlip').tooltip();
+    $('.materialize-tooltip').tooltip();
 });
-
 
 /**
  * Preview File Before Upload Images
  */
-$(document).on('change', '.input-image', function(e){
+$(document).on('change', '.input-image', function(e) {
     let files = $(this)[0].files;
     let target = $(this).attr('target');
     let inputImage = $(this).clone();

@@ -44,14 +44,14 @@ class Admin extends ControllerClass
             'description' => null,
             'quantity' => null,
             'price' => null,
-            'prev_images' => null,
+            'images' => null,
         ];
 
         $error = false;
+        $validation = true;
+
         // Store to Database if method POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $validation = true;
 
             // Assign POST Data
             $product['category_id'] = $category_id = filter($_POST['category_id']);
@@ -61,15 +61,15 @@ class Admin extends ControllerClass
             $product['quantity'] = $quantity = filter($_POST['quantity']);
             $product['price'] = $price = filter($_POST['price']);
             $datetime = date('Y-m-d H:i:s');
+            $images = null;
 
             // Upload Images
-            $images = '';
             if (isset($_FILES['images']['name'])) {
 
                 $upload = $this->uploadProductImages($_FILES['images'], $slug);
 
                 if ( $upload['status'] == true ) {
-                    $images = json_encode($upload['response']);
+                    $images = json_encode($upload['files']);
                 } else {
                     $validation = false;
                     $error = $upload['response'];
@@ -89,12 +89,10 @@ class Admin extends ControllerClass
             }
         }
 
-        // Fetch Categories
-        $data['categories'] = $this->db->query("SELECT * FROM categories");
-
         $title = config('name').' - Create Product';
         $data['title'] = 'Input Product';
         $data['product'] = $product;
+        $data['categories'] = $this->db->query("SELECT * FROM categories");
         $data['submitUrl'] = baseurl('admin/product-create');
         $data['error'] = $error;
 
@@ -114,10 +112,10 @@ class Admin extends ControllerClass
         $product = $product[0];
 
         $error = false;
+        $validation = true;
+
         // Update to Database if method POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $validation = true;
 
             // Assign POST Data
             $product['category_id'] = $category_id = filter($_POST['category_id']);
@@ -127,10 +125,54 @@ class Admin extends ControllerClass
             $product['quantity'] = $quantity = filter($_POST['quantity']);
             $product['price'] = $price = filter($_POST['price']);
             $datetime = date('Y-m-d H:i:s');
+            $images = [];
+
+            // Check stored previous Images in database
+            $prevImages = getImages($product['images'], true, false);
+            $prevImagesKeep = [];
+            $prevImagesDeleted = [];
+
+            // Check keeped previous image sent in form edit
+            if (isset($_POST['prev_images'])) {
+                $images = $prevImagesKeep = $_POST['prev_images'];
+            }
+
+            // Assign images path for delete / unlink later after update query
+            foreach ($prevImages as $key => $image) {
+                if ( ! in_array($image, $prevImagesKeep) ) {
+                    $prevImagesDeleted[] = getcwd().str_replace(baseurl(), '', $image);
+                }
+            }
+
+            // Process Upload New Images
+            if (isset($_FILES['images']['name'])) {
+
+                $upload = $this->uploadProductImages($_FILES['images'], $slug);
+
+                if ( $upload['status'] == true ) {
+                    $images = array_merge($images, $upload['files']);
+                } else {
+                    $validation = false;
+                    $error = $upload['response'];
+                }
+            }
 
             if ($validation) {
+
+                // Convert images data to json if data is assigned
+                if (count($images) > 0) {
+                    $images = json_encode($images);
+                } else {
+                    $images = null;
+                }
+
                 // Update to database
-                $query = $this->db->query("UPDATE products SET category_id = '$category_id', name = '$name', slug = '$slug', description = '$description', quantity = '$quantity', price = '$price', updated_at = '$datetime' WHERE id = '$id'");
+                $query = $this->db->query("UPDATE products SET category_id = '$category_id', name = '$name', slug = '$slug', description = '$description', quantity = '$quantity', price = '$price', images = '$images', updated_at = '$datetime' WHERE id = '$id'");
+
+                // Unlink Deleted Images
+                foreach ($prevImagesDeleted as $file) {
+                    unlink($file);
+                }
 
                 if ($query === true) {
                     redirect('admin/product?message=success');
@@ -140,12 +182,10 @@ class Admin extends ControllerClass
             }
         }
 
-        // Fetch Categories
-        $data['categories'] = $this->db->query("SELECT * FROM categories");
-
         $title = config('name').' - Edit '.$product['name'];
         $data['title'] = 'Edit Product';
         $data['product'] = $product;
+        $data['categories'] = $this->db->query("SELECT * FROM categories");
         $data['submitUrl'] = baseurl('admin/product-edit/'.$id);
         $data['error'] = $error;
 
@@ -159,6 +199,20 @@ class Admin extends ControllerClass
     public function productDelete($id)
     {
         $id = filter($id);
+
+        // Unlink or Remove Images
+        $result = $this->db->query("SELECT images FROM products WHERE id = '$id'");
+
+        if ( isset($result[0]) ) {
+
+            $images = getImage($result[0]['images'], true, array());
+
+            foreach ($images as $key => $image) {
+                unlink(getcwd().str_replace(baseurl(), '', $image));
+            }
+        }
+
+        // Delete record from database
         $result = $this->db->query("DELETE FROM products WHERE id = '$id'");
 
         if ($result) {
@@ -169,7 +223,7 @@ class Admin extends ControllerClass
     }
 
     /**
-     * Save Images
+     * Upload Images Product
      */
     private function uploadProductImages($images, $prefix = null)
     {
@@ -186,6 +240,7 @@ class Admin extends ControllerClass
                 return [
                     'status' => false,
                     'response' => 'File '.$filename.' is not valid jpg or png format',
+                    'files' => [],
                 ];
             }
 
@@ -194,6 +249,7 @@ class Admin extends ControllerClass
                 return [
                     'status' => false,
                     'response' => 'File '.$filename.' is not an image',
+                    'files' => [],
                 ];
             }
 
@@ -202,6 +258,7 @@ class Admin extends ControllerClass
                 return [
                     'status' => false,
                     'response' => 'Image '.$filename.' size must be below 2MB',
+                    'files' => [],
                 ];
             }
 
@@ -222,6 +279,7 @@ class Admin extends ControllerClass
                 return [
                     'status' => false,
                     'response' => 'Error while move file '.$file['prev_name'],
+                    'files' => [],
                 ];
             }
 
@@ -231,6 +289,7 @@ class Admin extends ControllerClass
         return [
             'status' => true,
             'response' => $images,
+            'files' => $images,
         ];
     }
 

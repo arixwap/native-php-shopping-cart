@@ -1,30 +1,22 @@
 <div class="container">
     <div class="section">
-        <!-- <div class="row">
-            <form action="<?=baseurl()?>">
-                <div class="input-field col s12 l4 offset-l4">
-                    <input type="text" name="search" id="search">
-                    <label for="search">Type to Search...</label>
-                </div>
-            </form>
-        </div> -->
-        <div class="row">
-            <?php foreach ($products as $product) : ?>
-                <div class="col s12 m3">
-                    <div class="icon-block center-align">
-                        <img class="responsive-img" src="<?=$product['images']?>" alt="<?=$product['slug']?>">
-                        <h5 class="center"><?=$product['name']?></h5>
-                        <span class="light ">Rp. <?=number_format($product['price'])?></span>
+        <?php foreach (chunk($products, 4) as $rows) : ?>
+            <div class="row">
+                <?php foreach ($rows as $product) : ?>
+                    <div class="col s12 m3 m-b-2 product">
+                        <div class="icon-block">
+                            <div class="square valign-wrapper">
+                                <div><img class="responsive-img product-card" src="<?=getImage($product['images'])?>" alt="<?=$product['slug']?>"></div>
+                            </div>
+                            <h5><?=$product['name']?> <i class="material-icons"></i></h5>
+                            <div class="left">
+                                <span class="light">Rp. <?=number_format($product['price'])?></span>
+                            </div>
+                            <button class="orange waves-effect waves-light btn btn-small right buy">Buy</button>
+                        </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-            <!-- <div class="col s12 m3">
-                <div class="icon-block">
-                    <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
-                    <h5 class="center">Speeds up development</h5>
-                    <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-                </div>
-            </div> -->
-        </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
     </div>
 </div>

@@ -1,5 +1,5 @@
 PROGRESS
-- PHP Image Process
+- Edit Images
 - Favicon
 - Function Refresh Images Link
 
@@ -20,7 +20,6 @@ PROGRESS
   - Filter Category
   - Desription
   - Nested Category
-  - Images
 - System :
  - Input Request Validation
  - Controller Unlimited Parameter (URI)

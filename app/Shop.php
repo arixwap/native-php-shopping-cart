@@ -17,13 +17,6 @@ class Shop extends ControllerClass
     {
         $data['products'] = $this->db->query("SELECT products.*, categories.name AS category_name FROM products JOIN categories ON products.category_id = categories.id WHERE products.quantity > 0");
 
-        // Set default image if not set
-        foreach ($data['products'] as $key => $product) {
-            if ( ! $product['images'] ) {
-                $data['products'][$key]['images'] = baseurl('public/images/empty.png');
-            }
-        }
-
         view('home', $data);
     }
 

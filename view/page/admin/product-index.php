@@ -26,11 +26,11 @@
                             <img src="<?=getImage($product['images'])?>" alt="<?=$product['slug']?>" class="circle">
                             <b><span class="title bold"><?=$product['name']?></span></b>
                             <br/>
-                            <span class="category">Category : <b><?=$product['category_name']?></b></span>
-                            &nbsp;|&nbsp;
-                            <span class="quantity">Stock : <b><?=number_format($product['quantity'])?></b></span>
-                            &nbsp;|&nbsp;
-                            <span class="price">Price : <b>Rp. <?=number_format($product['price'])?></b></span>
+                            <small class="category">Category : <b><?=$product['category_name']?></b></small>
+                            <br>
+                            <small class="quantity">Stock : <b><?=number_format($product['quantity'])?></b></small>
+                            <br>
+                            <small class="price">Price : <b>Rp. <?=number_format($product['price'])?></b></small>
                             <div class="secondary-content">
                                 <a href="<?=baseurl('admin/product-edit/'.$product['id'])?>"><i class="material-icons blue-text text-lighten-1">edit</i></a>
                                 <a href="<?=baseurl('admin/product-delete/'.$product['id'])?>"><i class="material-icons red-text text-lighten-2">delete</i></a>
