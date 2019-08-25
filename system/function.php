@@ -256,7 +256,7 @@ function filter($input)
 /**
  * Parse string / array into Image Url
  */
-function getImage($images, $all = false, $default = null)
+function getImages($images, $all = false, $default = 'none')
 {
     // Decode to JSON Array Image
     if ( ! is_array($images) ) {
@@ -269,11 +269,39 @@ function getImage($images, $all = false, $default = null)
     }
 
     // Set default image if not set
-    if ($default == null) {
+    if ($default == 'none') {
         $default = baseurl('public/images/empty.png');
     }
 
-    return $default;
+    return $all ? [] : $default;
+}
+
+function getImage($images, $all = false, $default = 'none')
+{
+    return getImages($images, $all, $default);
+}
+
+/**
+ * Break Array into smaller part
+ * For Loop in Grid Content
+ */
+function chunk($array, $max = 1) {
+
+    if ( ! is_array($array) || $max < 1 )  return [];
+
+    $chunks = [];
+    $index = 0;
+    $i = 0;
+    foreach ($array as $value) {
+        $chunks[$index][] = $value;
+        $i++;
+        if ($i >= $max) {
+            $index++;
+            $i = 0;
+        }
+    }
+
+    return $chunks;
 }
 
 ?>
