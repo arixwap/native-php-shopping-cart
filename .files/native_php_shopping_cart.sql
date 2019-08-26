@@ -18,11 +18,13 @@ CREATE TABLE IF NOT EXISTS `carts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- Dumping data for table native_php_shopping_cart.carts: ~0 rows (approximately)
 DELETE FROM `carts`;
 /*!40000 ALTER TABLE `carts` DISABLE KEYS */;
+INSERT INTO `carts` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
+	(1, '1HUff', '2019-08-26 07:06:35', '2019-08-26 07:06:35');
 /*!40000 ALTER TABLE `carts` ENABLE KEYS */;
 
 -- Dumping structure for table native_php_shopping_cart.cart_products
@@ -57,11 +59,14 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table native_php_shopping_cart.categories: ~0 rows (approximately)
+-- Dumping data for table native_php_shopping_cart.categories: ~2 rows (approximately)
 DELETE FROM `categories`;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` (`id`, `parent_id`, `slug`, `name`, `description`, `created_at`, `updated_at`) VALUES
+	(1, 0, 'alat-tulis', 'Alat Tulis', '', '2019-08-26 02:54:39', '2019-08-26 02:54:39'),
+	(2, 0, 'elektronik', 'Elektronik', '', '2019-08-26 02:54:51', '2019-08-26 02:54:51');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 
 -- Dumping structure for table native_php_shopping_cart.orders
@@ -117,11 +122,17 @@ CREATE TABLE IF NOT EXISTS `products` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Dumping data for table native_php_shopping_cart.products: ~0 rows (approximately)
+-- Dumping data for table native_php_shopping_cart.products: ~5 rows (approximately)
 DELETE FROM `products`;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` (`id`, `category_id`, `slug`, `name`, `description`, `price`, `images`, `quantity`, `created_at`, `updated_at`) VALUES
+	(1, 2, 'caddy-disk-dvd', 'Caddy Disk DVD', 'Caddy Disk untuk external Hardisk.\r\nMenggunakan slot DVD.', 135000, '["http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025555-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-1.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-2.jpg"]', 2, '2019-08-23 11:55:56', '2019-08-26 02:56:30'),
+	(2, 2, 'mini-bluetooth-speaker', 'Mini Bluetooth Speaker', 'Menggunakan Bluetooth atau SD Card', 60000, '["http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-0.png", "http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-1.jpg"]', 5, '2019-08-23 11:57:22', '2019-08-26 02:57:14'),
+	(4, 2, 'mini-fan', 'Mini USB Fan', '', 25000, '["http://192.168.1.7/shopping-cart/public/images/products/mini-fan-20190826025941-0.jpg"]', 5, '2019-08-26 02:59:41', '2019-08-26 02:59:41'),
+	(5, 1, 'sequence-harry-potter', 'Sequence Harry Potter', '', 1000000, '["http://192.168.1.7/shopping-cart/public/images/products/sequence-harry-potter-20190826030646-0.jpg"]', 6, '2019-08-26 03:06:46', '2019-08-26 03:06:46'),
+	(6, 0, 'gold-mini-speaker', 'Gold Mini Speaker', '', 40000, '["http://192.168.1.7/shopping-cart/public/images/products/gold-mini-speaker-20190826030718-0.jpg"]', 4, '2019-08-26 03:07:18', '2019-08-26 03:07:18');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
