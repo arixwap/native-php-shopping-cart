@@ -17,6 +17,8 @@ class Admin extends ControllerClass
         return $this->product();
     }
 
+
+
     /**
      * Show Product List
      * URL : admin/product
@@ -60,7 +62,7 @@ class Admin extends ControllerClass
             $product['description'] = $description = filter($_POST['description']);
             $product['quantity'] = $quantity = filter($_POST['quantity']);
             $product['price'] = $price = filter($_POST['price']);
-            $datetime = date('Y-m-d H:i:s');
+            $now = date('Y-m-d H:i:s');
             $images = null;
 
             // Upload Images
@@ -78,7 +80,7 @@ class Admin extends ControllerClass
 
             if ($validation) {
                 // Insert to database
-                $query = $this->db->query("INSERT INTO products (category_id, slug, name, description, quantity, price, images, created_at, updated_at) VALUES('$category_id', '$slug', '$name', '$description', '$quantity', '$price', '$images', '$datetime', '$datetime')");
+                $query = $this->db->query("INSERT INTO products (category_id, slug, name, description, quantity, price, images, created_at, updated_at) VALUES('$category_id', '$slug', '$name', '$description', '$quantity', '$price', '$images', '$now', '$now')");
 
                 if ($query === true) {
                     redirect('admin/product?message=success');
@@ -124,7 +126,7 @@ class Admin extends ControllerClass
             $product['description'] = $description = filter($_POST['description']);
             $product['quantity'] = $quantity = filter($_POST['quantity']);
             $product['price'] = $price = filter($_POST['price']);
-            $datetime = date('Y-m-d H:i:s');
+            $now = date('Y-m-d H:i:s');
             $images = [];
 
             // Check stored previous Images in database
@@ -167,7 +169,7 @@ class Admin extends ControllerClass
                 }
 
                 // Update to database
-                $query = $this->db->query("UPDATE products SET category_id = '$category_id', name = '$name', slug = '$slug', description = '$description', quantity = '$quantity', price = '$price', images = '$images', updated_at = '$datetime' WHERE id = '$id'");
+                $query = $this->db->query("UPDATE products SET category_id = '$category_id', name = '$name', slug = '$slug', description = '$description', quantity = '$quantity', price = '$price', images = '$images', updated_at = '$now' WHERE id = '$id'");
 
                 // Unlink Deleted Images
                 foreach ($prevImagesDeleted as $file) {
@@ -293,6 +295,8 @@ class Admin extends ControllerClass
         ];
     }
 
+
+
     /**
      * Show Category List
      * URL : admin/category
@@ -332,11 +336,11 @@ class Admin extends ControllerClass
             $category['slug'] = $slug = toKebabCase(filter($_POST['name']));
             $_POST['description'] = null;
             $category['description'] = $description = filter($_POST['description']);
-            $datetime = date('Y-m-d H:i:s');
+            $now = date('Y-m-d H:i:s');
 
             if ($validation) {
                 // Insert to database
-                $query = $this->db->query("INSERT INTO categories (parent_id, slug, name, description, created_at, updated_at) VALUES('$parent_id', '$slug', '$name', '$description', '$datetime', '$datetime')");
+                $query = $this->db->query("INSERT INTO categories (parent_id, slug, name, description, created_at, updated_at) VALUES('$parent_id', '$slug', '$name', '$description', '$now', '$now')");
 
                 if ($query === true) {
                     redirect('admin/category?message=success');
@@ -384,11 +388,11 @@ class Admin extends ControllerClass
             $category['slug'] = $slug = toKebabCase(filter($_POST['name']));
             $_POST['description'] = null;
             $category['description'] = $description = filter($_POST['description']);
-            $datetime = date('Y-m-d H:i:s');
+            $now = date('Y-m-d H:i:s');
 
             if ($validation) {
                 // Update to database
-                $query = $this->db->query("UPDATE categories SET parent_id = '$parent_id', slug = '$slug', name = '$name', description = '$description', updated_at = '$datetime' WHERE id = '$id'");
+                $query = $this->db->query("UPDATE categories SET parent_id = '$parent_id', slug = '$slug', name = '$name', description = '$description', updated_at = '$now' WHERE id = '$id'");
 
                 if ($query === true) {
                     redirect('admin/category?message=success');
@@ -427,6 +431,8 @@ class Admin extends ControllerClass
             redirect('admin/category?message=failed');
         }
     }
+
+
 
     /**
      * Index of Order

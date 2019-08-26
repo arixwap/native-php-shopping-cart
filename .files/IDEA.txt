@@ -1,0 +1,78 @@
+# Cart Process
+- SET status = true, response = 'OK'
+- GET Cart with Cart_product from Database, where user_id = session(user_id)
+- IF ! Cart
+  - INSERT new Cart
+  - Get Cart ID from insert
+- ELSE
+  - Get Cart ID From Database
+- ENDIF
+- Request Product Parameter : product_id, qty, method [add, delete]
+- IF Request Product
+  - GET product from Database
+  - IF method == add
+    - validation qty
+    - Copy data from products to cart_products
+      - INSERT if cart_product id not exist
+      - UPDATE if cart_product id exist
+  - ELSE (method == delete)
+    - DELETE cart_product if Exist in Cart
+- ENDIF
+- Return JSON : status, response
+
+
+# Button Buy Product Home
+- Send Data to # Cart Process : product_id, qty, method[add]
+- IF status = true
+  - redirect to '/cart'
+- ELSE
+  - Show toast error (optional)
+- ENDIF
+
+
+# View Cart
+- GET Cart Data
+- IF Cart
+  - Loop Cart Product
+  - Button Checkout
+  - Hidden Checkout Form
+- ELSE
+  - Show no product in cart
+- ENDIF
+- Show Back Button
+
+
+# Delete Item Cart Button
+- Send data to # Cart Process : product_id, qty, method[delete]
+- IF success
+  - Delete Item Element
+  - Show Success in materialize toast (optional)
+- ELSE
+  - Show Error in materialize toast (optional)
+- ENDIF
+
+
+# Checkout Button
+- Send data to # Cart Process : ARRAY [product_id, qty, method[add]]
+- IF success
+  - Show Checkout Form : Name, Address, Submit Button
+- ELSE
+  - Show Error in materialize toast (optional)
+- ENDIF
+
+
+# Checkout Process
+- GET cart with product
+- IF cart
+  - GET Request Data : name, Address
+  - INSERT order to Database
+  - get order_id
+  - Loop cart_product
+    - Make array for insert to order_products
+    - make array for update qty products
+  - MULTI INSERT order_products
+  - MULTI UPDATE products qty
+  - Show Success, Back Button
+- ELSE
+  redirect 'home'
+- ENDIF

@@ -1,9 +1,9 @@
 PROGRESS
-- Cart Page
-- Checkout Page
-- Order List Page
-- Order List Detail
-
+- Cart & Checkout Process
+- Fix Router Class :
+  - Call Class inside directory
+  - Home Page URI Parameter without Class Name
+- Function Refresh Images Link
 
 # Brainstorming
 - Home
@@ -25,7 +25,6 @@ PROGRESS
   - Desription Tooltip
   - Nested Category
 - System :
- - Function Refresh Images Link
  - Favicon
  - Input Request Validation
  - Controller Unlimited Parameter (URI)
