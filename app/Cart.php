@@ -75,7 +75,7 @@ class Cart extends ControllerClass
              * Force into array
              * Default quantity value is 1
              */
-            $quantities = $_POST['qty'] ?? [];
+            $quantities = $_POST['qty'] ?? [1];
             if ( ! is_array($quantities) ) $quantities = [$quantities];
 
             /**
@@ -207,15 +207,11 @@ class Cart extends ControllerClass
 
                 $sql = "DELETE FROM cart_products WHERE cart_id = '$cartId' AND product_id IN ($bulkDeleteCarts)";
 
-                ddjson($sql);
-
                 $this->db->query($sql);
             }
 
         }
-        /**
-         * End of - Setup Cart Product
-         */
+        // End of - Setup Cart Product
 
         /**
          * Response Json

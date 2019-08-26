@@ -79,11 +79,29 @@ button.btn.btn-block, a.btn.btn-block {
     right: -20px;
 }
 
+.cart-item .delete-item {
+    position: relative;
+    top: -10px;
+    right: -10px;
+
+    font-size: 0.4em;
+    width: 25px;
+    height: 25px;
+}
+
+.cart-item .delete-item .material-icons {
+    font-size: 3em;
+    line-height: 1.5em;
+}
 
 /**
  * Helper
  */
- ul.menu-footer > li {
+.bold {
+    font-weight: 600;
+}
+
+ul.menu-footer > li {
     font-weight: 300;
     margin-bottom: 0.3em;
 }

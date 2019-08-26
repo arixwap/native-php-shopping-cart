@@ -60,7 +60,7 @@ $(document).on('click', '.preview-image .btn-delete', function(e) {
 
 
 /**
- * Script Cart Send Ajax Post
+ * Script Cart Send Ajax - Add Product to Cart
  */
 $(document).on('click', '.product .buy', function(e) {
     e.preventDefault();
@@ -79,6 +79,36 @@ $(document).on('click', '.product .buy', function(e) {
             console.log(result);
             console.log(status);
             window.location = result['redirect'];
+        },
+        error: function(xhr, status, error) {
+            console.log(status);
+            console.log(error);
+            console.log(xhr);
+        }
+    })
+})
+
+/**
+ * Script Cart Send Ajax - Delete Cart Item
+ */
+$(document).on('click', '.cart .cart-item .delete-item', function(e) {
+    e.preventDefault();
+    let cartItem = $(this).closest('.cart-item');
+    let productId = $(this).data('id');
+    let processUrl = $(this).attr('href');
+    let postData = {
+        'product_id': [productId],
+        // 'qty': [1], // Optional
+        'method': ['delete'],
+    };
+    $.ajax({
+        url: processUrl,
+        type: 'POST',
+        data: postData,
+        success: function(result, status, xhr) {
+            console.log(result);
+            console.log(status);
+            cartItem.remove();
         },
         error: function(xhr, status, error) {
             console.log(status);
