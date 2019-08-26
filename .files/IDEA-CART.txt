@@ -1,23 +1,29 @@
 # Cart Process
 - SET status = true, response = 'OK'
-- GET Cart with Cart_product from Database, where user_id = session(user_id)
-- IF ! Cart
-  - INSERT new Cart
-  - Get Cart ID from insert
-- ELSE
-  - Get Cart ID From Database
-- ENDIF
-- Request Product Parameter : product_id, qty, method [add, delete]
-- IF Request Product
-  - GET product from Database
-  - IF method == add
-    - validation qty
-    - Copy data from products to cart_products
-      - INSERT if cart_product id not exist
-      - UPDATE if cart_product id exist
-  - ELSE (method == delete)
-    - DELETE cart_product if Exist in Cart
-- ENDIF
+
+- SETUP CART
+  - GET Cart Join Cart_product from Database, where user_id = session(user_id)
+  - IF ! Cart
+    - INSERT new Cart
+    - Get Cart ID from insert
+  - ELSE
+    - Get Cart ID From Database
+  - ENDIF
+- END - SETUP CART
+
+- SETUP CART PRODUCT | Parameter : product_id, qty, method [add, delete]
+  - IF Request Product
+    - GET product from Database
+    - IF method == add
+      - validation qty
+      - Copy data from products to cart_products
+        - INSERT if cart_product id not exist
+        - UPDATE if cart_product id exist
+    - ELSE (method == delete)
+      - DELETE cart_product if Exist in Cart
+  - ENDIF
+- END - SETUP CART PRODUCT
+
 - Return JSON : status, response
 
 

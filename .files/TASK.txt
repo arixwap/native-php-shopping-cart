@@ -3,7 +3,7 @@ PROGRESS
 - Fix Router Class :
   - Call Class inside directory
   - Home Page URI Parameter without Class Name
-- Function Refresh Images Link
+
 
 # Brainstorming
 - Home

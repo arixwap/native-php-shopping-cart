@@ -53,6 +53,15 @@ function dd($data, $vardump = false)
 }
 
 /**
+ * Data Dump in Json Encode Output
+ */
+function ddjson($data)
+{
+    echo json_encode($data);
+    exit();
+}
+
+/**
  *
  */
 function url($url)
@@ -314,6 +323,54 @@ function chunk($array, $max = 1) {
     }
 
     return $chunks;
+}
+
+/**
+ * Return array use key with value of given key
+ */
+function keyBy($array, $setKey) {
+
+    if (is_array($array)) {
+
+        $newArray = [];
+
+        foreach ($array as $nest) {
+
+            if (is_array($nest) && isset($nest[$setKey])) {
+                $value = $nest[$setKey];
+                $newArray[$value] = $nest;
+            }
+
+        }
+
+        return $newArray;
+    }
+
+    return false;
+}
+
+/**
+ * Return all of the values for a given key
+ */
+function pluck($array, $setKey, $filter = false)
+{
+    if (is_array($array)) {
+
+        $newArray = [];
+
+        foreach ($array as $nest) {
+
+            if (is_array($nest) && isset($nest[$setKey])) {
+                // filter or not to prevent from hacker attack
+                $newArray[] = ($filter) ? filter($nest[$setKey]) : $nest[$setKey];
+            }
+
+        }
+
+        return $newArray;
+    }
+
+    return false;
 }
 
 /**

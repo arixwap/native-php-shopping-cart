@@ -9,7 +9,7 @@
                                 <div><img class="responsive-img product-card" src="<?=getImage($product['images'])?>" alt="<?=$product['slug']?>"></div>
                             </div>
                             <div>
-                                <button class="btn btn-small buy orange waves-effect waves-light right" data-id="<?=$product['id']?>">Buy</button>
+                                <a href="<?=baseurl('cart/process')?>" class="btn btn-small buy orange waves-effect waves-light right" data-id="<?=$product['id']?>">Buy</a>
                                 <h5 class="title">
                                     <?=$product['name']?>
                                     <br>

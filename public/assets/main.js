@@ -57,3 +57,33 @@ $(document).on('change', '.input-image', function(e) {
 $(document).on('click', '.preview-image .btn-delete', function(e) {
     $(this).closest('.preview-image').remove();
 });
+
+
+/**
+ * Script Cart Send Ajax Post
+ */
+$(document).on('click', '.product .buy', function(e) {
+    e.preventDefault();
+    let productId = $(this).data('id');
+    let processUrl = $(this).attr('href');
+    let postData = {
+        'product_id': [productId],
+        'qty': [1],
+        'method': ['add'],
+    };
+    $.ajax({
+        url: processUrl,
+        type: 'POST',
+        data: postData,
+        success: function(result, status, xhr) {
+            console.log(result);
+            console.log(status);
+            window.location = result['redirect'];
+        },
+        error: function(xhr, status, error) {
+            console.log(status);
+            console.log(error);
+            console.log(xhr);
+        }
+    })
+})
