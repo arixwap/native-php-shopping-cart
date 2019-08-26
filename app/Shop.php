@@ -101,7 +101,7 @@ class Shop extends ControllerClass
         return json_encode([
             'status' => $status,
             'response' => $response,
-        ])
+        ]);
     }
 
     /**
@@ -110,6 +110,71 @@ class Shop extends ControllerClass
      */
     public function checkout()
     {
+        redirect('/');
+    }
+
+    /**
+     * Update Images Link
+     */
+    public function fixImage()
+    {
+        // Set Flag for Delete Image file if not listed in database
+        $cleanFiles = isset($_GET['clean']) ? true : false;
+        $usedFiles = [];
+        $directory = getcwd().'\public\images\products\\';
+
+        $prevProducts = $this->db->query("SELECT id, images FROM products WHERE images <> ''");
+        $productIds = [];
+        $sqlCase = "";
+
+        foreach ($prevProducts as $key => $product) {
+
+            $prevLinks = json_decode($product['images']);
+            $newLinks = [];
+
+            foreach ($prevLinks as $link) {
+                /**
+                 * Get filename
+                 * Explode url to array by delimiter '/'
+                 * Get the last array value
+                 */
+                $filename = array_values( array_slice( explode('/', $link), -1) )[0];
+                $newLinks[] = baseurl('public/images/products/').$filename;
+
+                $usedFiles[] = $filename;
+            }
+
+            $productIds[] = $product['id'];
+            $newLinks = json_encode($newLinks);
+            $sqlCase .= "WHEN id = '$product[id]' THEN '$newLinks'";
+
+        }
+
+        // Update Images in Database
+        if (count($productIds) > 0) {
+
+            $productIds = implode(', ', $productIds);
+            $sql = "UPDATE products SET images = (CASE $sqlCase END) WHERE id IN ($productIds)";
+            $this->db->query($sql);
+
+        }
+
+        // Clean unlisted images in database
+        if ($cleanFiles) {
+
+            $files = scandir($directory);
+            $usedFiles = array_merge($usedFiles, ['.', '..']);
+
+            // Remove file in directory
+            foreach ($files as $file) {
+                if ( ! in_array($file, $usedFiles) ) {
+                    unlink($directory.$file);
+                }
+            }
+
+        }
+
+        // Return to home page
         redirect('/');
     }
 
