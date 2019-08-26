@@ -42,7 +42,7 @@ class DatabaseClass
     /**
      * Get table data by raw query and return it as array
      */
-    public function query($string)
+    public function query($string, $returnMysqlObject = false)
     {
         $result = false;
         $query = $this->connection->query($string);
@@ -64,6 +64,8 @@ class DatabaseClass
 
             if ($this->connection->error) {
                 $result = $this->connection->error;
+            } else if($returnMysqlObject) {
+                $result = $this->connection;
             } else {
                 $result = $query;
             }
