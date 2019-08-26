@@ -9,15 +9,13 @@
                                 <div><img class="responsive-img product-card" src="<?=getImage($product['images'])?>" alt="<?=$product['slug']?>"></div>
                             </div>
                             <div>
-                                <h5>
+                                <a href="<?=baseurl('shop/cart?product='.$product['id'])?>" class="right orange waves-effect waves-light btn buy">Buy</a>
+                                <h5 class="title">
                                     <?=$product['name']?>
                                     <br>
                                     <small class="grey-text"><?=$product['category_name']?></small>
                                 </h5>
-                                <div class="light">
-                                    Rp. <?=number_format($product['price'])?>
-                                    <a href="<?=baseurl('shop/cart?product='.$product['id'])?>" class="right orange waves-effect waves-light btn buy">Buy</a>
-                                </div>
+                                <div class="light">Rp. <?=number_format($product['price'])?></div>
                             </div>
                         </div>
                     </div>

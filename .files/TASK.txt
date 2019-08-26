@@ -25,8 +25,8 @@ PROGRESS
   - Desription Tooltip
   - Nested Category
 - System :
- - Favicon
  - Function Refresh Images Link
+ - Favicon
  - Input Request Validation
  - Controller Unlimited Parameter (URI)
  - Database Class Query Builder

@@ -8,7 +8,6 @@
  */
 class Shop extends ControllerClass
 {
-
     /**
      * Home Page - List Of Product
      * URL : shop/index
@@ -35,7 +34,37 @@ class Shop extends ControllerClass
      */
     public function cart()
     {
-        view('cart');
+        $userId = getSession('user_id', randomString(5));
+
+        // Retrive Cart Data
+        $carts = $this->db->query("SELECT * FROM carts LEFT JOIN cart_products ON carts.id = cart_products.cart_id WHERE carts.user_id = '$userId'");
+
+        // Store product to cart if request data is set
+        if (isset($_POST['product'])) {
+
+            $id = filter($_POST['product']);
+
+            // Get Product Data
+            $product = $this->db->query("SELECT * FROM products WHERE ");
+
+            foreach ($carts as $key => $cart) {
+                // if ()
+            }
+        }
+
+        $title = config('name').' - Cart List';
+        $data['carts'] = $carts;
+
+        view('cart', $data, $title);
+    }
+
+    /**
+     * Cart Page
+     * URL : shop/checkout
+     */
+    public function checkout()
+    {
+        redirect('/');
     }
 
 }

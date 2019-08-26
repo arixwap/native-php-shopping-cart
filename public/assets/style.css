@@ -13,15 +13,6 @@
     font-size: inherit;
 }
 
-.product small {
-    color: #aaa;
-    font-size: 0.5em;
-}
-
-.product .buy {
-    position: relative;
-    top: -30px;
-}
 
 /**
  * Component Style
@@ -64,6 +55,21 @@ button.btn.btn-block, a.btn.btn-block {
 
 img.responsive-img.product-card {
     max-height: 150px;
+}
+
+.product .title {
+    font-size: 1.3em;
+}
+
+.product small {
+    color: #aaa;
+    font-size: 0.5em;
+}
+
+.product .buy {
+    position: relative;
+    top: -50px;
+    right: -20px;
 }
 
 
