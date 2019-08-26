@@ -7,6 +7,7 @@
     <meta name="robots" content="noindex, nofollow">
     <link href="<?=baseurl('public/assets/materialize/icon.css?family=Material+Icons')?>" rel="stylesheet">
     <link rel="stylesheet" href="<?=baseurl('public/assets/materialize/materialize.min.css') ?>">
+    <link rel="stylesheet" href="<?=baseurl('public/assets/w3/w3.css') ?>">
     <link rel="stylesheet" href="<?=baseurl('public/assets/style.css') ?>">
 </head>
 <body>
