@@ -199,6 +199,18 @@ function pageForbidden($title = '403 - Forbidden')
 }
 
 /**
+ * Make Random String Function
+ */
+function randomString($length = 10) {
+    $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $string = '';
+    for ($i = 0; $i < $length; $i++) {
+        $string .= $chars[rand(0, strlen($chars) - 1)];
+    }
+    return $string;
+}
+
+/**
  * Function convert string to snake_case
  */
 function toSnakeCase($string)
@@ -302,6 +314,56 @@ function chunk($array, $max = 1) {
     }
 
     return $chunks;
+}
+
+/**
+ * Get session name in beautiful ways
+ * Autoset value if session is not exist
+ */
+function getSession($name = null, $setValue = null)
+{
+    // Check session and start if not
+    if (session_status() != 2) session_start();
+
+    // Set session value if not set
+    if ( ! isset($_SESSION[$name]) && $setValue != null ) {
+        setSession($name, $setValue);
+    }
+
+    // Return all session data
+    if ( $name == null) {
+        return $_SESSION;
+    }
+
+    return $_SESSION[$name] ?? null;
+}
+
+/**
+ * Set session name in beautiful ways
+ */
+function setSession($name, $value) {
+
+    // Check session and start if not
+    if (session_status() != 2) session_start();
+
+    return $_SESSION[$name] = $value;
+}
+
+/**
+ * Delete session
+ */
+function unsetSession($name) {
+
+    // Check session and start if not
+    if (session_status() != 2) session_start();
+
+    $session = getSession($name);
+    if (isset($session)) {
+        unset($_SESSION[$name]);
+        return true;
+    }
+
+    return false;
 }
 
 ?>

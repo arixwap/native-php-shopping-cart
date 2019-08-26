@@ -11,7 +11,6 @@ class ControllerClass
      * Initial Variables
      */
     protected $db;
-    protected $session;
     protected $route;
 
     /**
