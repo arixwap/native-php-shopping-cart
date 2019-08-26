@@ -53,9 +53,9 @@ button.btn.btn-block, a.btn.btn-block {
     right : -20px;
 }
 
-img.responsive-img.product-card {
-    max-height: 90px;
-}
+/* img.responsive-img.product-card {
+    max-height: 500px;
+} */
 
 .product .title {
     width: 100%;
@@ -67,7 +67,10 @@ img.responsive-img.product-card {
 
 .product small {
     color: #aaa;
-    font-size: 0.5em;
+    font-size: 0.7em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .product .buy {

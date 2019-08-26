@@ -1,14 +1,3 @@
-(function($){
-
-    $(function(){
-
-        $('.sidenav').sidenav();
-
-    }); // end of document ready
-
-})(jQuery); // end of jQuery name space
-
-
 /**
  * Initial Materialize Plugin
  */
@@ -18,7 +7,19 @@ $(document).ready(function(){
     $('.materialize-tooltip').tooltip();
 });
 
+
 /**
+ * Script Mobile Menu Sidebar
+ */
+(function($){
+    $(function() {
+        $('.sidenav').sidenav();
+    });
+})(jQuery);
+
+
+/**
+ * Script Form Input Edit Product
  * Preview File Before Upload Images
  */
 $(document).on('change', '.input-image', function(e) {
@@ -50,6 +51,7 @@ $(document).on('change', '.input-image', function(e) {
 });
 
 /**
+ * Script Form Input Edit Product
  * Remove Preview Image
  */
 $(document).on('click', '.preview-image .btn-delete', function(e) {
