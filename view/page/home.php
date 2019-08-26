@@ -3,13 +3,13 @@
         <?php foreach (chunk($products, 4) as $rows) : ?>
             <div class="row">
                 <?php foreach ($rows as $product) : ?>
-                    <div class="col s6 m3 product">
+                    <div class="col s6 m6 l3 product">
                         <div class="icon-block">
                             <div class="square valign-wrapper">
                                 <div><img class="responsive-img product-card" src="<?=getImage($product['images'])?>" alt="<?=$product['slug']?>"></div>
                             </div>
                             <div>
-                                <a href="<?=baseurl('shop/cart?product='.$product['id'])?>" class="right orange waves-effect waves-light btn btn-small buy">Buy</a>
+                                <button class="btn btn-small buy orange waves-effect waves-light right" data-id="<?=$product['id']?>">Buy</button>
                                 <h5 class="title">
                                     <?=$product['name']?>
                                     <br>
