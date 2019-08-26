@@ -17,8 +17,19 @@ class Cart extends ControllerClass
         $userId = getSession('user_id', randomString(5));
         $now = date('Y-m-d H:i:s');
 
-        // Retrive Cart Data
+        // Get Cart Product
         $carts = $this->db->query("SELECT carts.*, cart_products.* FROM carts JOIN cart_products ON carts.id = cart_products.cart_id WHERE carts.user_id = '$userId'");
+
+        // Get Product Data
+        $productIds = implode(', ', pluck($carts, 'product_id'));
+        $products = $this->db->query("SELECT id, quantity FROM products WHERE id IN ($productIds)");
+        $products = keyBy($products, 'id');
+
+        foreach ($carts as $key => $cart) {
+            $productId = $cart['product_id'];
+            $cart['max_qty'] = $products[$productId]['quantity'];
+            $carts[$key] = $cart;
+        }
 
         $title = config('name').' - Cart List';
         $data['carts'] = $carts;

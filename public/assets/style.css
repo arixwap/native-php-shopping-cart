@@ -79,6 +79,10 @@ button.btn.btn-block, a.btn.btn-block {
     right: -20px;
 }
 
+.cart-item input.qty {
+    width: 50px;
+}
+
 .cart-item .delete-item {
     position: relative;
     top: -10px;
