@@ -23,7 +23,7 @@
                 <ul class="collection">
                     <?php foreach($categories as $key => $category) : ?>
                         <li class="collection-item">
-                            <b><span class="title bold"><?=$category['name']?></span></b>
+                            <span class="title bold"><?=$category['name']?></span>
                             <div class="secondary-content">
                                 <a href="<?=baseurl('admin/category-edit/'.$category['id'])?>"><i class="material-icons blue-text text-lighten-1">edit</i></a>
                                 <a href="<?=baseurl('admin/category-delete/'.$category['id'])?>"><i class="material-icons red-text text-lighten-2">delete</i></a>

@@ -438,13 +438,50 @@ class Admin extends ControllerClass
      * Index of Order
      * URL : admin/order
      */
-    public function order()
+    public function order($id)
     {
-        $title = config('name').' - Order List';
+        if ($id) {
 
-        $data['orders'] = $this->db->query('SELECT * FROM orders');
+            $this->orderDetail($id);
 
-        view('admin/order-index', $data, $title);
+        } else {
+
+            $title = config('name').' - Order List';
+
+            $data['orders'] = $this->db->query('SELECT * FROM orders');
+
+            view('admin/order-index', $data, $title);
+
+        }
+    }
+
+    /**
+     * Order Detail
+     * URL : admin/order/{id}
+     */
+    public function orderDetail($id)
+    {
+        $title = config('name').' - Order Detail';
+
+        $id = filter($id);
+        $order = $this->db->query("SELECT * FROM orders WHERE id = '$id'");
+
+        if (count($order) > 0) {
+
+            $order = $order[0];
+            $orderDetail = $this->db->query("SELECT * FROM order_products WHERE order_id = '$order[id]'");
+
+            $title = config('name').' - Order Detail';
+            $order['detail'] = $orderDetail;
+            $data['order'] = $order;
+
+            view('admin/order-detail', $data, $title);
+
+        } else {
+
+            view404();
+
+        }
     }
 
 }

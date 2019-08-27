@@ -19,7 +19,20 @@
     <div class="row">
         <div class="col s12">
             <?php if (count($orders) > 0) : ?>
-                <?= dump($orders) ?>
+                <h5 class="grey-text">Order List</h5>
+                <ul class="collection">
+                    <?php foreach($orders as $key => $order) : ?>
+                        <li class="collection-item">
+                            <div class="secondary-content">
+                                <a href="<?=baseurl('admin/order/'.$order['id'])?>" class="materialize-tooltip" data-position="right" data-tooltip="Order Detail"><i class="material-icons blue-text text-lighten-1">chevron_right</i></a>
+                            </div>
+                            <small class="order-date bold"><?=date('Y F d', strtotime($order['created_at']))?></small>
+                            <br>
+                            <div>Name : <span class="order-name bold"><?=$order['name']?></span></div>
+                            <div>Address : <span class="order-address"><?=$order['address']?></span></div>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
             <?php else : ?>
                 <h5 class="grey-text">No Order List</h5>
             <?php endif; ?>

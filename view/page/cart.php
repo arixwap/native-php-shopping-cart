@@ -28,7 +28,7 @@
                         <?php endforeach; ?>
                     </ul>
                     <div class="right-align m-b-1">
-                        <span class="cart-total-price bold">Rp. <?=number_format($total_price)?></span>
+                        <span class="cart-total-price total-price bold">Rp. <?=number_format($total_price)?></span>
                     </div>
                 </div>
                 <div class="col s12 m6 l3 offset-l6 m-b-1">

@@ -18,15 +18,11 @@ CREATE TABLE IF NOT EXISTS `carts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table native_php_shopping_cart.carts: ~4 rows (approximately)
+-- Dumping data for table native_php_shopping_cart.carts: ~3 rows (approximately)
 DELETE FROM `carts`;
 /*!40000 ALTER TABLE `carts` DISABLE KEYS */;
-INSERT INTO `carts` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
-	(1, '1HUff', '2019-08-26 07:06:35', '2019-08-26 07:06:35'),
-	(3, 'NnKKZ', '2019-08-27 03:22:54', '2019-08-27 03:22:54'),
-	(4, 'VoxEo', '2019-08-27 06:09:35', '2019-08-27 06:09:35');
 /*!40000 ALTER TABLE `carts` ENABLE KEYS */;
 
 -- Dumping structure for table native_php_shopping_cart.cart_products
@@ -44,16 +40,11 @@ CREATE TABLE IF NOT EXISTS `cart_products` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- Dumping data for table native_php_shopping_cart.cart_products: ~4 rows (approximately)
 DELETE FROM `cart_products`;
 /*!40000 ALTER TABLE `cart_products` DISABLE KEYS */;
-INSERT INTO `cart_products` (`id`, `cart_id`, `product_id`, `category_id`, `name`, `description`, `price`, `images`, `quantity`, `category_name`, `created_at`, `updated_at`) VALUES
-	(7, 3, 4, 2, 'Mini USB Fan', '', 25000, '["http://192.168.1.7/shopping-cart/public/images/products/mini-fan-20190826025941-0.jpg"]', 1, 'Elektronik', '2019-08-27 04:01:12', '2019-08-27 04:01:12'),
-	(8, 3, 2, 2, 'Mini Bluetooth Speaker', 'Menggunakan Bluetooth atau SD Card', 60000, '["http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-0.png", "http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-1.jpg"]', 1, 'Elektronik', '2019-08-27 04:41:03', '2019-08-27 04:41:03'),
-	(17, 4, 2, 2, 'Mini Bluetooth Speaker', 'Menggunakan Bluetooth atau SD Card', 60000, '["http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-0.png", "http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-1.jpg"]', 1, 'Elektronik', '2019-08-27 06:12:16', '2019-08-27 06:12:21'),
-	(18, 4, 1, 2, 'Caddy Disk DVD', 'Caddy Disk untuk external Hardisk. Menggunakan slot DVD.', 135000, '["http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025555-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-1.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-2.jpg"]', 1, 'Elektronik', '2019-08-27 06:12:18', '2019-08-27 06:12:21');
 /*!40000 ALTER TABLE `cart_products` ENABLE KEYS */;
 
 -- Dumping structure for table native_php_shopping_cart.categories
@@ -87,13 +78,14 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- Dumping data for table native_php_shopping_cart.orders: ~0 rows (approximately)
 DELETE FROM `orders`;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
 INSERT INTO `orders` (`id`, `user_id`, `name`, `address`, `total_price`, `payment`, `created_at`, `updated_at`) VALUES
-	(1, 'szFwc', 'Arix Wap', 'Tohpati', NULL, NULL, '2019-08-27 07:35:37', '2019-08-27 07:35:37');
+	(1, 'szFwc', 'Arix Wap', 'Tohpati', 350000, NULL, '2019-08-27 07:53:32', '2019-08-27 07:53:32'),
+	(2, 'szFwc', 'Arix 2', 'Merak', 195000, NULL, '2019-08-27 07:55:12', '2019-08-27 07:55:12');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 
 -- Dumping structure for table native_php_shopping_cart.order_products
@@ -111,14 +103,16 @@ CREATE TABLE IF NOT EXISTS `order_products` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- Dumping data for table native_php_shopping_cart.order_products: ~0 rows (approximately)
 DELETE FROM `order_products`;
 /*!40000 ALTER TABLE `order_products` DISABLE KEYS */;
 INSERT INTO `order_products` (`id`, `order_id`, `product_id`, `category_id`, `category_name`, `name`, `description`, `price`, `images`, `quantity`, `created_at`, `updated_at`) VALUES
-	(1, 1, 1, 2, 'Elektronik', 'Caddy Disk DVD', 'Caddy Disk untuk external Hardisk.\r\nMenggunakan slot DVD.', 135000, '["http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025555-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-1.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-2.jpg"]', 2, '2019-08-27 07:35:37', '2019-08-27 07:35:37'),
-	(2, 1, 4, 2, 'Elektronik', 'Mini USB Fan', '', 25000, '["http://192.168.1.7/shopping-cart/public/images/products/mini-fan-20190826025941-0.jpg"]', 2, '2019-08-27 07:35:37', '2019-08-27 07:35:37');
+	(1, 1, 1, 2, 'Elektronik', 'Caddy Disk DVD', 'Caddy Disk untuk external Hardisk.\r\nMenggunakan slot DVD.', 135000, '["http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025555-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-1.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-2.jpg"]', 2, '2019-08-27 07:53:32', '2019-08-27 07:53:32'),
+	(2, 1, 6, 0, '', 'Gold Mini Speaker', '', 40000, '["http://192.168.1.7/shopping-cart/public/images/products/gold-mini-speaker-20190826030718-0.jpg"]', 2, '2019-08-27 07:53:32', '2019-08-27 07:53:32'),
+	(3, 2, 1, 2, 'Elektronik', 'Caddy Disk DVD', 'Caddy Disk untuk external Hardisk.\r\nMenggunakan slot DVD.', 135000, '["http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025555-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-1.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-2.jpg"]', 1, '2019-08-27 07:55:12', '2019-08-27 07:55:12'),
+	(4, 2, 2, 2, 'Elektronik', 'Mini Bluetooth Speaker', 'Menggunakan Bluetooth atau SD Card', 60000, '["http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-0.png", "http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-1.jpg"]', 1, '2019-08-27 07:55:12', '2019-08-27 07:55:12');
 /*!40000 ALTER TABLE `order_products` ENABLE KEYS */;
 
 -- Dumping structure for table native_php_shopping_cart.products
@@ -140,10 +134,10 @@ CREATE TABLE IF NOT EXISTS `products` (
 DELETE FROM `products`;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
 INSERT INTO `products` (`id`, `category_id`, `slug`, `name`, `description`, `price`, `images`, `quantity`, `created_at`, `updated_at`) VALUES
-	(1, 2, 'caddy-disk-dvd', 'Caddy Disk DVD', 'Caddy Disk untuk external Hardisk.\r\nMenggunakan slot DVD.', 135000, '["http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025555-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-1.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-2.jpg"]', 0, '2019-08-23 11:55:56', '2019-08-26 02:56:30'),
-	(2, 2, 'mini-bluetooth-speaker', 'Mini Bluetooth Speaker', 'Menggunakan Bluetooth atau SD Card', 60000, '["http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-0.png", "http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-1.jpg"]', 5, '2019-08-23 11:57:22', '2019-08-26 02:57:14'),
+	(1, 2, 'caddy-disk-dvd', 'Caddy Disk DVD', 'Caddy Disk untuk external Hardisk.\r\nMenggunakan slot DVD.', 135000, '["http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025555-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-0.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-1.jpg", "http://192.168.1.7/shopping-cart/public/images/products/caddy-disk-dvd-20190826025630-2.jpg"]', 1, '2019-08-23 11:55:56', '2019-08-27 07:54:35'),
+	(2, 2, 'mini-bluetooth-speaker', 'Mini Bluetooth Speaker', 'Menggunakan Bluetooth atau SD Card', 60000, '["http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-0.png", "http://192.168.1.7/shopping-cart/public/images/products/mini-bluetooth-speaker-20190826025714-1.jpg"]', 4, '2019-08-23 11:57:22', '2019-08-26 02:57:14'),
 	(4, 2, 'mini-fan', 'Mini USB Fan', '', 25000, '["http://192.168.1.7/shopping-cart/public/images/products/mini-fan-20190826025941-0.jpg"]', 3, '2019-08-26 02:59:41', '2019-08-26 02:59:41'),
-	(6, 0, 'gold-mini-speaker', 'Gold Mini Speaker', '', 40000, '["http://192.168.1.7/shopping-cart/public/images/products/gold-mini-speaker-20190826030718-0.jpg"]', 4, '2019-08-26 03:07:18', '2019-08-26 03:07:18');
+	(6, 0, 'gold-mini-speaker', 'Gold Mini Speaker', '', 40000, '["http://192.168.1.7/shopping-cart/public/images/products/gold-mini-speaker-20190826030718-0.jpg"]', 2, '2019-08-26 03:07:18', '2019-08-26 03:07:18');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

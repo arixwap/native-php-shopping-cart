@@ -103,15 +103,24 @@ button.btn.btn-block, a.btn.btn-block {
     line-height: 1.5em;
 }
 
-.cart-total-price {
+.total-price {
     font-size: 2em;
     margin: 10px auto;
+    color: #6d6d6d;
+}
+
+.total-price-title {
+    font-size: 1.5em;
     color: #6d6d6d;
 }
 
 /**
  * Helper
  */
+.font-big {
+    font-size: 1.2em;
+}
+
 .bold {
     font-weight: 600;
 }
@@ -123,6 +132,10 @@ ul.menu-footer > li {
 
 .text-space {
     letter-spacing: 0.1em;
+}
+
+.m-t-0 {
+    margin-top: 0em !important;
 }
 
 .m-t-1 {
