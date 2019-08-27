@@ -14,9 +14,7 @@ class Home extends ControllerClass
      */
     public function index($error = false)
     {
-        if ($error) {
-            $this->error404();
-        }
+        if ($error) $this->error404();
 
         // Fix image URL in first load
         if (getSession('fix_image') == null) {
