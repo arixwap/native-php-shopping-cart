@@ -1,3 +1,0 @@
-# Route URL Paramater Sequence Check:
-- Success Scene : Class Name > Method Name > Parameter 1 > Paramater ...
-- Class Name ? Directory Name ? Error 404
