@@ -22,17 +22,21 @@ class Cart extends ControllerClass
 
         // Get Product Data
         $productIds = implode(', ', pluck($carts, 'product_id'));
-        $products = $this->db->query("SELECT id, quantity FROM products WHERE id IN ($productIds)");
+        $products = $this->db->query("SELECT id, price, quantity FROM products WHERE id IN ($productIds)");
         $products = keyBy($products, 'id');
 
+        $totalPrice = 0;
         foreach ($carts as $key => $cart) {
             $productId = $cart['product_id'];
+            $cart['total_item_price'] = $products[$productId]['price'] * $cart['quantity'];
             $cart['max_qty'] = $products[$productId]['quantity'];
             $carts[$key] = $cart;
+            $totalPrice += $cart['total_item_price'];
         }
 
         $title = config('name').' - Cart List';
         $data['carts'] = $carts;
+        $data['total_price'] = $totalPrice;
 
         view('cart', $data, $title);
     }
@@ -132,8 +136,8 @@ class Cart extends ControllerClass
                  * Validation Quantity Product
                  * Number must same or smaller than products.quantity value
                  */
-                $qty = $quantities[$key];
-                if ( ! is_int($qty) ) $qty = 1;
+                $qty = intval($quantities[$key]);
+                if ( $qty < 1 ) $qty = 1;
                 if ( $qty > $product['quantity'] ) $qty = $product['quantity'];
 
                 /**

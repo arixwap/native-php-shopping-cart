@@ -1,4 +1,16 @@
 /**
+ * Number.prototype.format(n, x)
+ *
+ * @param integer n: length of decimal
+ * @param integer x: length of sections
+ */
+Number.prototype.format = function(n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
+
+
+/**
  * Initial Materialize Plugin
  */
 $(document).ready(function(){
@@ -66,11 +78,13 @@ $(document).on('click', '.product .buy', function(e) {
     e.preventDefault();
     let productId = $(this).data('id');
     let processUrl = $(this).attr('href');
+
     let postData = {
         'product_id': [productId],
         'qty': [1],
         'method': ['add'],
     };
+
     $.ajax({
         url: processUrl,
         type: 'POST',
@@ -89,18 +103,87 @@ $(document).on('click', '.product .buy', function(e) {
 })
 
 /**
+ * Script Cart Change Total Price
+ */
+$(document).on('change', '.cart-item .qty', function(e) {
+    e.preventDefault();
+    // Count item total price
+    let cartItem = $(this).closest('.cart-item');
+    let qty = parseInt($(this).val());
+    let price = parseInt($(this).data('price'));
+    let total = (qty * price).format();
+    cartItem.find('.item-total-price').html('Rp. '+total);
+    // Count cart total price
+    let totalPrice = 0;
+    $('.cart .cart-item').each(function() {
+        let qty = parseInt($(this).find('input.qty').val());
+        let price = parseInt($(this).find('input.qty').data('price'));
+        totalPrice += price * qty;
+    });
+    $('.cart-total-price').html('Rp. '+totalPrice.format());
+});
+
+/**
+ * Script Cart Send Ajax - Add Product to Cart
+ */
+$(document).on('click', '.btn-checkout', function(e) {
+    e.preventDefault();
+    let ids = [];
+    let qty = [];
+    let methods = [];
+    let processUrl = '';
+
+    $('.cart .cart-item').each(function() {
+        ids.push($(this).data('id'));
+        qty.push($(this).find('input.qty').val());
+        methods.push('add');
+        processUrl = $(this).data('url');
+    })
+
+    let postData = {
+        'product_id': ids,
+        'qty': qty,
+        'method': methods,
+    };
+
+    $.ajax({
+        url: processUrl,
+        type: 'POST',
+        data: postData,
+        beforeSend: function() {
+            $('.checkout-preloader').removeClass('hide');
+        },
+        success: function(result, status, xhr) {
+            // console.log(result);
+            // console.log(status);
+            $('.checkout-preloader').addClass('hide');
+            $('.cart-container').addClass('hide');
+            $('.form-checkout').removeClass('hide');
+        },
+        error: function(xhr, status, error) {
+            console.log(status);
+            console.log(error);
+            console.log(xhr);
+            $('.checkout-preloader').removeClass('hide');
+        }
+    })
+})
+
+/**
  * Script Cart Send Ajax - Delete Cart Item
  */
 $(document).on('click', '.cart .cart-item .delete-item', function(e) {
     e.preventDefault();
     let cartItem = $(this).closest('.cart-item');
-    let productId = $(this).data('id');
-    let processUrl = $(this).attr('href');
+    let productId = cartItem.data('id');
+    let processUrl = cartItem.data('url');
+
     let postData = {
         'product_id': [productId],
         // 'qty': [1], // Optional
         'method': ['delete'],
     };
+
     $.ajax({
         url: processUrl,
         type: 'POST',

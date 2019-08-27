@@ -79,15 +79,20 @@ button.btn.btn-block, a.btn.btn-block {
     right: -20px;
 }
 
+.cart {
+    color: #6d6d6d;
+}
+
 .cart-item input.qty {
-    width: 50px;
+    width: 40px;
+    height: 20px;
+    display: inline-block;
 }
 
 .cart-item .delete-item {
     position: relative;
     top: -10px;
     right: -10px;
-
     font-size: 0.4em;
     width: 25px;
     height: 25px;
@@ -96,6 +101,12 @@ button.btn.btn-block, a.btn.btn-block {
 .cart-item .delete-item .material-icons {
     font-size: 3em;
     line-height: 1.5em;
+}
+
+.cart-total-price {
+    font-size: 2em;
+    margin: 10px auto;
+    color: #6d6d6d;
 }
 
 /**
@@ -114,10 +125,14 @@ ul.menu-footer > li {
     letter-spacing: 0.1em;
 }
 
-.m-b-1 {
-    margin-bottom: 1em !important;
+.m-t-1 {
+    margin-top: 1em !important;
 }
 
-.m-b-2 {
-    padding-bottom: 2em !important;
+.m-b-0 {
+    margin-bottom: 0em !important;
+}
+
+.m-b-1 {
+    margin-bottom: 1em !important;
 }
