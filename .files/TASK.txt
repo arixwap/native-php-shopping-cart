@@ -1,8 +1,4 @@
 PROGRESS
-- Cart Input Qty & Price
-- Form Checkout
-- Success Checkout Page
-- Order Page
 - Fix Router Class :
   - Call Class inside directory
   - Home Page URI Parameter without Class Name
