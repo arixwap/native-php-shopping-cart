@@ -38,7 +38,7 @@ class Cart extends ControllerClass
         $data['carts'] = $carts;
         $data['total_price'] = $totalPrice;
 
-        view('cart', $data, $title);
+        $this->view('cart', ['data' => $data, 'title' => $title]);
     }
 
     /**
@@ -343,7 +343,7 @@ class Cart extends ControllerClass
                 /**
                  * Show Success Page
                  */
-                view('checkout-success');
+                $this->view('checkout-success');
             }
         } else {
 

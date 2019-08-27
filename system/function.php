@@ -17,9 +17,8 @@ function config($search)
         foreach (explode('.', $search) as $key) {
 
             $result = null;
-            if ( isset($_CONFIG[$key]) ) {
-                $result = $_CONFIG = $_CONFIG[$key];
-            }
+
+            if ( isset($_CONFIG[$key]) ) $result = $_CONFIG = $_CONFIG[$key];
 
         }
 
@@ -62,7 +61,7 @@ function ddjson($data)
 }
 
 /**
- *
+ * Add prefix 'http' to Url string
  */
 function url($url)
 {
@@ -103,31 +102,67 @@ function baseurl($suffix = null)
 
 /**
  * Get current accessed URL
+ * Trim : Remove Get (?) Parameter in URL
  */
-function getUrl($segment = null)
+function getUrl($trim = false)
 {
     $baseurl = baseurl();
     $url = url($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
-    $requestUri = str_replace($baseurl, '', $url);
+    $url = filter_var($url, FILTER_SANITIZE_URL);
 
-    // remove first slashes '/'
-    $requestUri = substr($requestUri, 1, strlen($requestUri));
-
-    // return only URI segment if defined
-    if ($segment !== null && $segment >= 0) {
-        $requestUri = explode('/', $requestUri);
-        return $requestUri[$segment] ?? false;
-    }
+    // Trim Get Parameter
+    if ( $trim && (strpos($url, '?') !== false) ) $url = substr($url, 0, strpos($url, '?'));
 
     return $url;
 }
 
 /**
  * Get current accessed URI
+ * $Segment parameter : Index Segment (Number), True = All Segment in String
  */
-function Uri($segment = 0)
+function uri($segment = false)
 {
-    return getUrl($segment);
+    $baseurl = baseurl();
+    $url = getUrl(true);
+    $uri = str_replace($baseurl, '', $url);
+
+    // Trim Uri from end of '?' (GET Request) character
+    if (strpos($uri, '?')) $uri = substr($uri, 0, strpos($uri, '?'));
+
+    // return only URI segment if defined
+    if ($segment !== false && $segment >= 0) {
+
+        $uri = explode('/', $uri);
+        $uri = array_values( array_filter($uri) );
+
+        return $uri[$segment] ?? false;
+    }
+
+    return $uri;
+}
+
+/**
+ * Copy Function uri()
+ */
+function getUri($segment = false)
+{
+    return uri($segment);
+}
+
+/**
+ * Return URI into array key of segment
+ * $Segment parameter : Index Segment (Number), True = All Segment in Array
+ */
+function explodeUri($segment = true)
+{
+    $uri = explode('/', uri());
+    $uri = array_filter($uri); // Filter Empty Array
+    $uri = array_values($uri); // Reorder Array Index
+
+    // return only URI segment if defined
+    if ($segment !== true) return $uri[$segment] ?? false;
+
+    return $uri;
 }
 
 /**
@@ -157,65 +192,17 @@ function redirect($uri = null)
 }
 
 /**
- * Output View Function
- *
- * page : rendered page file in view/page/
- * data : mixed variables to be viewed
- * title : html page title
- * layout : main view layout to be used in view/layout
- */
-function view($page, $data = [], $title = null, $layout = null)
-{
-    // Set page title
-    $_VIEW['title'] = $title ?? config('name');
-
-    // Set page layout file
-    if ($layout) {
-        if (strpos($layout, '.php') === false) $layout = $layout.'.php';
-        $_VIEW['layout'] = 'view/layout/'.$layout;
-    } else {
-        $_VIEW['layout'] = 'view/layout/main.php';
-    }
-
-    // Set Page File
-    if (strpos($page, '.php') === false) $page = $page.'.php';
-    $_VIEW['page'] = 'view/page/'.$page;
-
-    // Extract Data Into Output, Unset unused data
-    unset($page, $title, $layout);
-    if ($data != null) extract($data);
-    unset($data);
-
-    include($_VIEW['layout']);
-}
-
-/**
- * Show error 404 not found page
- */
-function view404($title = '404 - Not Found')
-{
-    view('../error/404.php', null, $title);
-    exit();
-}
-
-/**
- * Show error 403 forbidden access
- */
-function pageForbidden($title = '403 - Forbidden')
-{
-    view('../error/403.php', null, $title);
-    exit();
-}
-
-/**
  * Make Random String Function
  */
-function randomString($length = 10) {
-    $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+function randomString($length = 10, $chars = null)
+{
+    if ( ! $chars ) $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
     $string = '';
     for ($i = 0; $i < $length; $i++) {
         $string .= $chars[rand(0, strlen($chars) - 1)];
     }
+
     return $string;
 }
 
@@ -264,7 +251,7 @@ function toPascalCase($string)
 }
 
 /**
- * Filter data from input  request
+ * Filter data from input request
  */
 function filter($input)
 {
@@ -308,8 +295,8 @@ function getImage($images, $all = false, $default = 'none')
  * Break Array into smaller part
  * For Loop in Grid Content
  */
-function chunk($array, $max = 1) {
-
+function chunk($array, $max = 1)
+{
     if ( ! is_array($array) || $max < 1 )  return [];
 
     $chunks = [];
@@ -330,8 +317,8 @@ function chunk($array, $max = 1) {
 /**
  * Return array use key with value of given key
  */
-function keyBy($array, $setKey) {
-
+function keyBy($array, $setKey)
+{
     if (is_array($array)) {
 
         $newArray = [];
@@ -400,8 +387,8 @@ function getSession($name = null, $setValue = null)
 /**
  * Set session name in beautiful ways
  */
-function setSession($name, $value) {
-
+function setSession($name, $value)
+{
     // Check session and start if not
     if (session_status() != 2) session_start();
 
@@ -411,8 +398,8 @@ function setSession($name, $value) {
 /**
  * Delete session
  */
-function unsetSession($name) {
-
+function unsetSession($name)
+{
     // Check session and start if not
     if (session_status() != 2) session_start();
 

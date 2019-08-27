@@ -6,7 +6,7 @@
             </a>
         </div>
         <div class="col s12 m4 l3 m-b-1">
-            <a class="waves-effect waves-light btn blue lighten-2 btn-block" href="<?=baseurl('admin/category-create')?>">
+            <a class="waves-effect waves-light btn blue lighten-2 btn-block" href="<?=baseurl('admin/category/create')?>">
                 <i class="material-icons left">add</i>New Category
             </a>
         </div>
@@ -25,8 +25,8 @@
                         <li class="collection-item">
                             <span class="title bold"><?=$category['name']?></span>
                             <div class="secondary-content">
-                                <a href="<?=baseurl('admin/category-edit/'.$category['id'])?>"><i class="material-icons blue-text text-lighten-1">edit</i></a>
-                                <a href="<?=baseurl('admin/category-delete/'.$category['id'])?>"><i class="material-icons red-text text-lighten-2">delete</i></a>
+                                <a href="<?=baseurl('admin/category/edit/'.$category['id'])?>"><i class="material-icons blue-text text-lighten-1">edit</i></a>
+                                <a href="<?=baseurl('admin/category/delete/'.$category['id'])?>"><i class="material-icons red-text text-lighten-2">delete</i></a>
                             </div>
                         </li>
                     <?php endforeach; ?>

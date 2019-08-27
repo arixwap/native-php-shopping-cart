@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Native PHP Shopping Cart
  * Created By Arix Wap (arix.wap@gmail.com)
@@ -12,10 +13,12 @@ $_CONFIG = [
     'name' => 'Shop Cart',
 
     // Application Base URL
-    'baseurl' => 'http://localhost/shopping-cart/',
+    // 'baseurl' => 'http://localhost/shopping-cart',      // Standar Localhost
+    // 'baseurl' => 'http://shopping-cart.test',           // Virtual Host (Laragon)
+    'baseurl' => 'http://192.168.1.89/shopping-cart',   // LAN IP Address for Mobile Testing
 
     // Index Controller
-    'index' => 'shop',
+    'index' => 'Home',
 
     // Database Configuration
     'database' => [
@@ -26,7 +29,6 @@ $_CONFIG = [
     ],
 
 ];
-
 
 // Boot Core System
 include 'system/boot.php';
