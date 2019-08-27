@@ -41,7 +41,7 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input name="name" type="text" class="validate character-counter" id="name" value="<?=$product['name']?>" data-length="100" required>
+                    <input name="name" type="text" class="validate character-counter" id="name" value="<?=$product['name']?>" data-length="100" autocomplete="off" required>
                     <label for="name">Product Name</label>
                 </div>
             </div>

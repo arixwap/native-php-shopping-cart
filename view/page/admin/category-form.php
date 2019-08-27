@@ -8,7 +8,7 @@
             <br>
             <div class="row">
                 <div class="input-field col s12">
-                    <input name="name" type="text" class="validate character-counter" id="name" value="<?=$category['name']?>" data-length="100" autocomplete="off">
+                    <input name="name" type="text" class="validate character-counter" id="name" value="<?=$category['name']?>" data-length="100" autocomplete="off" required>
                     <label for="name">Category Name</label>
                 </div>
             </div>

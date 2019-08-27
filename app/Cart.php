@@ -69,6 +69,7 @@ class Cart extends ControllerClass
             $cartId = $carts[0]['id'];
             $cartProducts = $this->db->query("SELECT * FROM cart_products WHERE cart_id = '$cartId'");
             $cartProductIds = pluck($cartProducts, 'product_id');
+            $cartProductsKeyId = keyBy($cartProducts, 'product_id');
         } else {
             $sql = "INSERT INTO carts (user_id, created_at, updated_at) VALUES('$userId', '$now', '$now')";
             $query = $this->db->query($sql, true);
@@ -135,10 +136,18 @@ class Cart extends ControllerClass
                 /**
                  * Validation Quantity Product
                  * Number must same or smaller than products.quantity value
+                 * If product qty from database is empty, force method to delete
                  */
                 $qty = intval($quantities[$key]);
                 if ( $qty < 1 ) $qty = 1;
+
+                if ($method == 'add') {
+                    $prevQty = isset($cartProductsKeyId[$idProduct]['quantity']) ? intval($cartProductsKeyId[$idProduct]['quantity']) : 0;
+                    $qty = $prevQty + $qty;
+                }
+
                 if ( $qty > $product['quantity'] ) $qty = $product['quantity'];
+                if ( $qty < 1) $method = 'delete';
 
                 /**
                  * Set Bulk Array Value by Selected Method
@@ -148,6 +157,7 @@ class Cart extends ControllerClass
                         $bulkDeleteCarts[] = $idProduct;
                         break;
                     case 'add':
+                    case 'update':
                     default:
                         if ( ! in_array($idProduct, $cartProductIds) ) {
                             // Set value for bulk insert
@@ -244,7 +254,96 @@ class Cart extends ControllerClass
      */
     public function checkout()
     {
-        redirect('/');
+        $userId = getSession('user_id', randomString(5));
+        $now = date('Y-m-d H:i:s');
+
+        // Validation Input Request
+        $name = isset($_POST['name']) ? filter($_POST['name']) : null;
+        $address = isset($_POST['address']) ? filter($_POST['address']) : null;
+
+        // Get Cart Product
+        $carts = $this->db->query("SELECT carts.*, cart_products.* FROM carts JOIN cart_products ON carts.id = cart_products.cart_id WHERE carts.user_id = '$userId'");
+
+        /**
+         * Check Cart Data, Input Name and Input Address
+         */
+        if (count($carts) > 0 && $name && $address) {
+
+            /**
+             * Get Original Product Data
+             * Product Id from Cart Product Table
+             * Only Select Product where Quantity > 0
+             */
+            $productIds = implode(', ', pluck($carts, 'product_id'));
+            $sql = "SELECT products.*, categories.name AS category_name FROM products LEFT JOIN categories ON products.category_id = categories.id WHERE products.quantity > 0 AND products.id IN ($productIds)";
+            $products = $this->db->query($sql);
+            $products = keyBy($products, 'id');
+
+            // Check if product data still available
+            if (count($carts) == count($products)) {
+
+                /**
+                 * Insert Data Order
+                 */
+                $sql = "INSERT INTO orders (user_id, name, address, created_at, updated_at) VALUES('$userId', '$name', '$address', '$now', '$now')";
+                $query = $this->db->query($sql, true);
+                $orderId = $query->insert_id;
+
+                /**
+                 * Initial Data for Bulk Insert Update
+                 */
+                $bulkInsertOrders = $bulkUpdateProducts = [];
+                foreach ($carts as $cart) {
+                    $idProduct = $cart['product_id'];
+                    $product = $products[$idProduct];
+                    $qtyLeft = $product['quantity'] - $cart['quantity'];
+
+                    // Set data bulk insert order products
+                    $bulkInsertOrders[] = "('$orderId', '$idProduct', '$product[category_id]', '$product[category_name]', '$product[name]', '$product[description]', '$product[price]', '$product[images]', '$cart[quantity]', '$now', '$now')";
+
+                    // Set data bulk update product quantity
+                    $bulks = [];
+                    $bulks['id'] = $idProduct;
+                    $bulks['case'] = "WHEN id = '$idProduct' THEN '$qtyLeft'";
+                    $bulkUpdateProducts[] = $bulks;
+                }
+
+                /**
+                 * Bulk Insert Order Products
+                 */
+                $bulkInsertOrders = implode(', ', $bulkInsertOrders);
+                $sql = "INSERT INTO order_products (order_id, product_id, category_id, category_name, name, description, price, images, quantity, created_at, updated_at) VALUES $bulkInsertOrders";
+                $this->db->query($sql);
+
+                /**
+                 * Bulk Update Products Quantity
+                 */
+                $productIds = implode(', ', pluck($bulkUpdateProducts, 'id'));
+                $qtyCases = implode(' ', pluck($bulkUpdateProducts, 'case'));
+                $sql = "UPDATE products SET quantity = (CASE $qtyCases END) WHERE id IN ($productIds)";
+                $this->db->query($sql);
+
+                /**
+                 * Clear Cart Data & Cart Products
+                 */
+                $cartId = $carts[0]['cart_id'];
+                $sql = "DELETE FROM carts WHERE id = '$cartId'";
+                $this->db->query($sql);
+                $sql = "DELETE FROM cart_products WHERE cart_id = '$cartId'";
+                $this->db->query($sql);
+
+                /**
+                 * Show Success Page
+                 */
+                view('checkout-success');
+            }
+        } else {
+
+            /**
+             * Redirect to Home if Not Cart Item
+             */
+            redirect('/');
+        }
     }
 
 }

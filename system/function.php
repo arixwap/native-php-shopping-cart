@@ -268,6 +268,8 @@ function toPascalCase($string)
  */
 function filter($input)
 {
+    if (is_array($input)) return false;
+
     $input = trim($input);
     $input = stripslashes($input);
     $input = htmlspecialchars($input);
