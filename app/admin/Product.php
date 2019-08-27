@@ -4,39 +4,28 @@
  * Product Controller Class
  *
  * Method called by URI
- * Example : /admin/index will call function index() in this class
+ * Example : /admin/product will call function index() in this class
  */
-class Admin extends ControllerClass
+class Product extends ControllerClass
 {
     /**
-     * Index of Product
-     * URL : admin/index
+     * Index of Product - Show Product List
+     * URL : admin/product/index
      */
     public function index()
-    {
-        return $this->product();
-    }
-
-
-
-    /**
-     * Show Product List
-     * URL : admin/product
-     */
-    public function product()
     {
         $title = config('name').' - Product List';
 
         $data['products'] = $this->db->query('SELECT products.*, categories.name AS category_name FROM products LEFT JOIN categories ON products.category_id = categories.id');
 
-        view('admin/product-index', $data, $title);
+        $this->view('admin/product-index', ['data' => $data, 'title' => $title]);
     }
 
     /**
      * Create new product
-     * URL : admin/product-create
+     * URL : admin/product/create
      */
-    public function productCreate()
+    public function create()
     {
         // Initial data
         $product = [
@@ -68,7 +57,7 @@ class Admin extends ControllerClass
             // Upload Images
             if (isset($_FILES['images']['name'])) {
 
-                $upload = $this->uploadProductImages($_FILES['images'], $slug);
+                $upload = $this->uploadImages($_FILES['images'], $slug);
 
                 if ( $upload['status'] == true ) {
                     $images = json_encode($upload['files']);
@@ -95,22 +84,26 @@ class Admin extends ControllerClass
         $data['title'] = 'Input Product';
         $data['product'] = $product;
         $data['categories'] = $this->db->query("SELECT * FROM categories");
-        $data['submitUrl'] = baseurl('admin/product-create');
+        $data['submitUrl'] = baseurl('admin/product/create');
         $data['error'] = $error;
 
-        view('admin/product-form', $data, $title);
+        $this->view('admin/product-form', ['data' => $data, 'title' => $title]);
     }
 
     /**
      * Edit product
-     * URL : admin/product-edit/{{id}}
+     * URL : admin/product/edit/{{id}}
      */
-    public function productEdit($id)
+    public function edit($id = null)
     {
         // Initial data
         $id = filter($id);
         $product = $this->db->query("SELECT * FROM products WHERE id = '$id'");
-        if ( ! $product ) view404(); // Return error 404 if no query result
+
+        // Return error 404 if no query result
+        if ( ! $product ) {
+            $this->error404();
+        }
         $product = $product[0];
 
         $error = false;
@@ -149,7 +142,7 @@ class Admin extends ControllerClass
             // Process Upload New Images
             if (isset($_FILES['images']['name'])) {
 
-                $upload = $this->uploadProductImages($_FILES['images'], $slug);
+                $upload = $this->uploadImages($_FILES['images'], $slug);
 
                 if ( $upload['status'] == true ) {
                     $images = array_merge($images, $upload['files']);
@@ -188,17 +181,17 @@ class Admin extends ControllerClass
         $data['title'] = 'Edit Product';
         $data['product'] = $product;
         $data['categories'] = $this->db->query("SELECT * FROM categories");
-        $data['submitUrl'] = baseurl('admin/product-edit/'.$id);
+        $data['submitUrl'] = baseurl('admin/product/edit/'.$id);
         $data['error'] = $error;
 
-        view('admin/product-form', $data, $title);
+        $this->view('admin/product-form', ['data' => $data, 'title' => $title]);
     }
 
     /**
      * Delete product
-     * URL : admin/product-delete/{{id}}
+     * URL : admin/product/delete/{{id}}
      */
-    public function productDelete($id)
+    public function delete($id = null)
     {
         $id = filter($id);
 
@@ -227,7 +220,7 @@ class Admin extends ControllerClass
     /**
      * Upload Images Product
      */
-    private function uploadProductImages($images, $prefix = null)
+    private function uploadImages($images, $prefix = null)
     {
         $exts = ['jpg', 'jpeg', 'png', 'gif'];
         $saveDir = getcwd().'\public\images\products\\';
@@ -293,195 +286,6 @@ class Admin extends ControllerClass
             'response' => $images,
             'files' => $images,
         ];
-    }
-
-
-
-    /**
-     * Show Category List
-     * URL : admin/category
-     */
-    public function category()
-    {
-        $title = config('name').' - Category List';
-
-        $data['categories'] = $this->db->query('SELECT * FROM categories');
-
-        view('admin/category-index', $data, $title);
-    }
-
-    /**
-     * Create new category
-     * URL : admin/category-create
-     */
-    public function categoryCreate()
-    {
-        // Initial data
-        $category = [
-            'id' => null,
-            'parent_id' => null,
-            'name' => null,
-            'description' => null,
-        ];
-
-        $error = false;
-        // Store to Database if method POST
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $validation = true;
-
-            // Assign POST Data
-            $category['parent_id'] = $parent_id = filter($_POST['parent_id']);
-            $category['name'] = $name = filter($_POST['name']);
-            $category['slug'] = $slug = toKebabCase(filter($_POST['name']));
-            $_POST['description'] = null;
-            $category['description'] = $description = filter($_POST['description']);
-            $now = date('Y-m-d H:i:s');
-
-            if ($validation) {
-                // Insert to database
-                $query = $this->db->query("INSERT INTO categories (parent_id, slug, name, description, created_at, updated_at) VALUES('$parent_id', '$slug', '$name', '$description', '$now', '$now')");
-
-                if ($query === true) {
-                    redirect('admin/category?message=success');
-                } else {
-                    $error = $query;
-                }
-            }
-        }
-
-        // Get Parent Category
-        $data['parentCategories'] = [];
-        $query = $this->db->query('SELECT * FROM categories');
-        if ($query) $data['parentCategories'] = $query;
-
-        $title = config('name').' - Create Category';
-        $data['title'] = 'Input Category';
-        $data['category'] = $category;
-        $data['submitUrl'] = baseurl('admin/category-create');
-        $data['error'] = $error;
-
-        view('admin/category-form', $data, $title);
-    }
-
-    /**
-     * Edit category
-     * URL : admin/category-edit
-     */
-    public function categoryEdit($id)
-    {
-        // Initial data
-        $id = filter($id);
-        $category = $this->db->query("SELECT * FROM categories WHERE id = '$id'");
-        if ( ! $category ) view404(); // Return error 404 if no query result
-        $category = $category[0];
-
-        $error = false;
-        // Store to Database if method POST
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $validation = true;
-
-            // Assign POST Data
-            $category['parent_id'] = $parent_id = filter($_POST['parent_id']);
-            $category['name'] = $name = filter($_POST['name']);
-            $category['slug'] = $slug = toKebabCase(filter($_POST['name']));
-            $_POST['description'] = null;
-            $category['description'] = $description = filter($_POST['description']);
-            $now = date('Y-m-d H:i:s');
-
-            if ($validation) {
-                // Update to database
-                $query = $this->db->query("UPDATE categories SET parent_id = '$parent_id', slug = '$slug', name = '$name', description = '$description', updated_at = '$now' WHERE id = '$id'");
-
-                if ($query === true) {
-                    redirect('admin/category?message=success');
-                } else {
-                    $error = $query;
-                }
-            }
-        }
-
-        // Get Parent Category
-        $data['parentCategories'] = [];
-        $query = $this->db->query('SELECT * FROM categories');
-        if ($query) $data['parentCategories'] = $query;
-
-        $title = config('name').' - Edit '.$category['name'];
-        $data['title'] = 'Edit Category';
-        $data['category'] = $category;
-        $data['submitUrl'] = baseurl('admin/category-edit/'.$id);
-        $data['error'] = $error;
-
-        view('admin/category-form', $data, $title);
-    }
-
-    /**
-     * Delete category
-     * URL : admin/category-delete/{{id}}
-     */
-    public function categoryDelete($id)
-    {
-        $id = filter($id);
-        $result = $this->db->query("DELETE FROM categories WHERE id = '$id'");
-
-        if ($result) {
-            redirect('admin/category?message=success');
-        } else {
-            redirect('admin/category?message=failed');
-        }
-    }
-
-
-
-    /**
-     * Index of Order
-     * URL : admin/order
-     */
-    public function order($id)
-    {
-        if ($id) {
-
-            $this->orderDetail($id);
-
-        } else {
-
-            $title = config('name').' - Order List';
-
-            $data['orders'] = $this->db->query('SELECT * FROM orders');
-
-            view('admin/order-index', $data, $title);
-
-        }
-    }
-
-    /**
-     * Order Detail
-     * URL : admin/order/{id}
-     */
-    public function orderDetail($id)
-    {
-        $title = config('name').' - Order Detail';
-
-        $id = filter($id);
-        $order = $this->db->query("SELECT * FROM orders WHERE id = '$id'");
-
-        if (count($order) > 0) {
-
-            $order = $order[0];
-            $orderDetail = $this->db->query("SELECT * FROM order_products WHERE order_id = '$order[id]'");
-
-            $title = config('name').' - Order Detail';
-            $order['detail'] = $orderDetail;
-            $data['order'] = $order;
-
-            view('admin/order-detail', $data, $title);
-
-        } else {
-
-            view404();
-
-        }
     }
 
 }

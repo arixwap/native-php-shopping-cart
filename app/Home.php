@@ -1,19 +1,23 @@
 <?php
 
 /**
- * Shop Controller Class
+ * Home Controller Class
  *
  * Method called by URI
- * Example : /shop/index will call function index() in this class
+ * Example : /home/index will call function index() in this class
  */
-class Shop extends ControllerClass
+class Home extends ControllerClass
 {
     /**
      * Home Page - List Of Product
-     * URL : shop/index
+     * URL : home/index
      */
-    public function index()
+    public function index($error = false)
     {
+        if ($error) {
+            $this->error404();
+        }
+
         // Fix image URL in first load
         if (getSession('fix_image') == null) {
             setSession('fix_image', '1');
@@ -23,7 +27,7 @@ class Shop extends ControllerClass
         // Get product data which amount is not 0
         $data['products'] = $this->db->query("SELECT products.*, categories.name AS category_name FROM products LEFT JOIN categories ON products.category_id = categories.id WHERE products.quantity > 0");
 
-        view('home', $data);
+        $this->view('home', ['data' => $data]);
     }
 
     /**

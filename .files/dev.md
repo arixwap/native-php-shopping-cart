@@ -1,7 +1,6 @@
-PROGRESS
-- Fix Router Class :
-  - Call Class inside directory
-  - Home Page URI Parameter without Class Name
+# PROGRESS
+- Router Class
+- Move View, View 404, View 403 Func to ControllerClass
 
 # Improvement :
 - Home :
@@ -14,7 +13,18 @@ PROGRESS
   - Desription Tooltip
   - Nested Category
 - System :
- - Favicon
+ - Router Class :
+   - Define constructor in App/ClassController, force to index or error 404 if method not exist
+   - Sequence Router URI:
+     - NO-URI : IndexClass:indexMethod
+     - URI :
+       - AnotherClass/methodName/...params,
+       - AnotherClass::indexMethod/...params,
+       - # LOOP START
+       - Directory/AnotherClass/methodName/...params,
+       - Directory/AnotherClass::indexMethod/...params,
+       - Directory/...Directory
+       - # LOOP DONE
+       - IndexClass::indexMethod/...params
  - Input Request Validation
- - Controller Unlimited Parameter (URI)
  - Database Class Query Builder
