@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
     <title><?= $_VIEW['title'] ?></title>
+    <link rel="shortcut icon" href="<?=baseurl('public/icon.ico')?>" type="image/x-icon"/>
     <meta name="robots" content="noindex, nofollow">
     <link href="<?=baseurl('public/assets/materialize/icon.css?family=Material+Icons')?>" rel="stylesheet">
     <link rel="stylesheet" href="<?=baseurl('public/assets/materialize/materialize.min.css') ?>">
