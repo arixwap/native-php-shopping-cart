@@ -293,10 +293,12 @@ class Cart extends ControllerClass
                  * Initial Data for Bulk Insert Update
                  */
                 $bulkInsertOrders = $bulkUpdateProducts = [];
+                $totalPrice = 0;
                 foreach ($carts as $cart) {
                     $idProduct = $cart['product_id'];
                     $product = $products[$idProduct];
                     $qtyLeft = $product['quantity'] - $cart['quantity'];
+                    $totalPrice += ( $product['price'] * $cart['quantity'] );
 
                     // Set data bulk insert order products
                     $bulkInsertOrders[] = "('$orderId', '$idProduct', '$product[category_id]', '$product[category_name]', '$product[name]', '$product[description]', '$product[price]', '$product[images]', '$cart[quantity]', '$now', '$now')";
@@ -313,6 +315,12 @@ class Cart extends ControllerClass
                  */
                 $bulkInsertOrders = implode(', ', $bulkInsertOrders);
                 $sql = "INSERT INTO order_products (order_id, product_id, category_id, category_name, name, description, price, images, quantity, created_at, updated_at) VALUES $bulkInsertOrders";
+                $this->db->query($sql);
+
+                /**
+                 * Update Product Total Price
+                 */
+                $sql = "UPDATE orders SET total_price = '$totalPrice' WHERE id = '$orderId'";
                 $this->db->query($sql);
 
                 /**
