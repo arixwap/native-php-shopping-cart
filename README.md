@@ -15,16 +15,16 @@ Simple Shopping Cart made using Native PHP.
 <br>
 
 # Available Feature (27 Aug 2019)
-- Create, Edit, Delete Product with Images
-- Create, Edit, Delete Product Category
-- Cart Add, Edit Delete Product Item
+- Create, Edit and Delete Product with Images
+- Create, Edit and Delete Product Category
+- Add, Edit Amount and Delete Product Item to Cart
 - Checkout Cart
-- Order List & Detail
+- Order List and Detail
 
 <br>
 
 # Directory Structure
 - **app** : main aplication class
 - **public** : assets, images and etc public access
-- **system** : core PHP system, class bootloader, config file, additional function
+- **system** : core PHP system, class bootloader, additional function
 - **view** : output file in HTML
