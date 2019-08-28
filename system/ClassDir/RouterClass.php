@@ -146,10 +146,12 @@ class RouterClass
          * Load Default Class and Method
          * If no URI Request
          * Or no Class were Selected
+         * Data URI Segment Reseted
          * Exp : http://base-url.test/
          */
         if ( ! $selectedClass ) {
 
+            $uriSegments = explodeUri(); // Reset Uri Segment
             $className =  toPascalCase($classDefault);
 
             if ( file_exists('app/'.$className.'.php') ) {
@@ -158,9 +160,7 @@ class RouterClass
 
                 $class = new $className();
                 $method = toCamelCase($methodDefault);
-                $uriSegments = explodeUri(); // Reset Uri Segment
                 if ( ! empty($uriSegments) ) $method = toCamelCase($uriSegments[0]);
-
 
                 if ( method_exists($class, $method) ) {
 
@@ -169,8 +169,8 @@ class RouterClass
 
                 } else if ( method_exists($class, $methodDefault) ) {
 
-                    $selectedClass = $class;
-                    $selectedMethod = $methodDefault;
+                    // $selectedClass = $class;
+                    // $selectedMethod = $methodDefault;
 
                 }
 

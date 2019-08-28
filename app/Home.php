@@ -12,10 +12,8 @@ class Home extends ControllerClass
      * Home Page - List Of Product
      * URL : home/index
      */
-    public function index($error = false)
+    public function index()
     {
-        if ($error) $this->error404();
-
         // Fix image URL in first load
         if (getSession('fix_image') == null) {
             setSession('fix_image', '1');

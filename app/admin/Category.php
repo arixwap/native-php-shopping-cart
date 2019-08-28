@@ -45,7 +45,6 @@ class Category extends ControllerClass
             $category['parent_id'] = $parent_id = filter($_POST['parent_id']);
             $category['name'] = $name = filter($_POST['name']);
             $category['slug'] = $slug = toKebabCase(filter($_POST['name']));
-            $_POST['description'] = null;
             $category['description'] = $description = filter($_POST['description']);
             $now = date('Y-m-d H:i:s');
 
@@ -101,7 +100,6 @@ class Category extends ControllerClass
             $category['parent_id'] = $parent_id = filter($_POST['parent_id']);
             $category['name'] = $name = filter($_POST['name']);
             $category['slug'] = $slug = toKebabCase(filter($_POST['name']));
-            $_POST['description'] = null;
             $category['description'] = $description = filter($_POST['description']);
             $now = date('Y-m-d H:i:s');
 
