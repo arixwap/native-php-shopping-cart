@@ -9,7 +9,7 @@ Simple Shopping Cart made using Native PHP.
 - Run well in **PHP 7.1**
 - Export MySql database in `.files/native_php_shopping_cart.sql`
 - Set config in **`index.php`**, `'baseurl' => 'http://YOUR-HOST-NAME'`
-- Config your database connection in **`index.php`** *(optional)*
+- Config your database connection in **`index.php`**
 - All Set Up !
 
 <br>
