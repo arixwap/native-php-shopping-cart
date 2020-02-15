@@ -7,7 +7,7 @@ Simple Shopping Cart made using Native PHP.
 
 # How To Install
 - Run well in **PHP 7.1**
-- Imprt MySql database, file location: `.files/native_php_shopping_cart.sql`
+- Import MySql database, file location: `.files/native_php_shopping_cart.sql`
 - Set config in **`index.php`**, `'baseurl' => 'http://YOUR-HOST-NAME'`
 - Config your database connection in **`index.php`**
 - All Set Up !
