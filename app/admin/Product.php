@@ -223,7 +223,7 @@ class Product extends ControllerClass
     private function uploadImages($images, $prefix = null)
     {
         $exts = ['jpg', 'jpeg', 'png', 'gif'];
-        $saveDir = getcwd().'\public\images\products\\';
+        $saveDir = getcwd().'/public/images/products/';
         $url = baseurl('public/images/products/');
 
         $uploads = [];

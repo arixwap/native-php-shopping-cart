@@ -34,7 +34,7 @@ class Home extends ControllerClass
         // Set Flag for Delete Image file if not listed in database
         $cleanFiles = isset($_GET['clean']) ? true : false;
         $usedFiles = [];
-        $directory = getcwd().'\public\images\products\\';
+        $directory = getcwd().'/public/images/products/';
 
         $prevProducts = $this->db->query("SELECT id, images FROM products WHERE images <> ''");
         $productIds = [];
