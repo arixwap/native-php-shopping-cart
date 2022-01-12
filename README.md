@@ -37,6 +37,6 @@
 
 ---
 
-Feel useful with this code? You can buy me some coffee here
+## Feel useful with this code? You can treat me some coffee here
 - https://www.buymeacoffee.com/arixwap
 - https://saweria.co/arixwap
