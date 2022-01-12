@@ -35,8 +35,6 @@
  - Input Request Validation
  - Database Class Query Builder
 
----
-
 ## Feel useful with this code? You can treat me some coffee here
 - https://www.buymeacoffee.com/arixwap
 - https://saweria.co/arixwap
