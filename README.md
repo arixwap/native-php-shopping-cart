@@ -36,4 +36,6 @@
  - Database Class Query Builder
 
 ## Feel useful with this code? You can treat me some coffee here
-[![Buy me a coffee](https://cdn.buymeacoffee.com/buttons/default-blue.png =x70)](https://www.buymeacoffee.com/arixwap) &emsp;&emsp;&emsp;&emsp;&emsp; [![Saweria](https://saweria.co/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcapy_happy.603c7293.svg&w=384&q=75   =100x)](https://saweria.co/arixwap)
+[![Buy me a coffee](https://cdn.buymeacoffee.com/buttons/default-blue.png)](https://www.buymeacoffee.com/arixwap)
+
+[![Saweria](https://mir-s3-cdn-cf.behance.net/projects/404/13a514105722943.Y3JvcCw4MDgsNjMyLDAsMA.png)](https://saweria.co/arixwap)
