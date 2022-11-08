@@ -2,8 +2,6 @@
 
 /**
  * Native PHP Shopping Cart
- * Created By Arix Wap (arix.wap@gmail.com)
- * For Kesato Interview Test - 21 Aug 2019
  */
 
 // Configuration Section

@@ -2,7 +2,6 @@
 
 /**
  * Native PHP Router Class
- * Created By : Arix Wap (arix.wap@gmail.com) - 21 Aug 2019
  */
 
 class RouterClass
